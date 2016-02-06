@@ -23,10 +23,10 @@ angular.module('yvyUiApp')
         $('.tooltip-bottom').tooltip({placement:'bottom'});
 
         //Botones, el primer parametro es el ID del filtro, el segundo parametro representa la lista de valores posibles
-        var filtrosBotones = {nombre_zona:['RURAL', 'URBANA'], proyecto111:['SI', 'NO'], proyecto822:['SI', 'NO']};
+        var filtrosBotones = {nombre_zona:['BAÑOS', 'FUENTE DE AGUA', 'MUSEO', 'AREA DE DESCANSO', 'ESTACIONAMIENTOS', 'ASIENTOS']};
 
         //Definicion de un array, donde cada indice representa el filtro (Ej: departamento, distrito), donde cada indice esta asociado a un array con los valores posibles para el mismo
-        var filtrosSelect = {nombre_departamento:[], nombre_distrito:[], nombre_barrio_localidad:[]};
+        var filtrosSelect = {nombre_animal:[]};
 
         /*
         Funcion que se ejecuta por cada parametro nuevo de filtrado. En la misma se reconstruyen los filtros, y posteriormente,
@@ -34,7 +34,7 @@ angular.module('yvyUiApp')
         que permite la aplicacion de los filtros sobre el mapa)
         */
         scope.updateFiltro = function(){
-          
+
           var localFiltro = scope.local;
           var filtroBase = [];
           var f = '';
@@ -73,7 +73,7 @@ angular.module('yvyUiApp')
 
         /* Funcion que inicializa los filtros de manera dinamica */
         var cargar = function(establecimientos){
-          
+
           //Carga de los distintos valores para cada filtro
           filtrosSelect = _(filtrosSelect).mapValues(function(value, key){
             return _(establecimientos.features).map(function(e){ return e.properties[key]; }).uniq().value().sort();
@@ -96,7 +96,7 @@ angular.module('yvyUiApp')
             });
 
             //Definimos un onChange sobre cada boton, de modo a que los cambios hechos sobre el filtro se reflejen en el mapa
-            $('#filtro_nombre_zona label input, #filtro_proyecto111 label input, #filtro_proyecto822 label input').change(function(){
+            $('#filtro_nombre_zona label input').change(function(){
               var self = $(this);
               var item = self.parent();
               (item.hasClass('active')) ? item.removeClass('active focus'):item.addClass('active');
@@ -106,9 +106,9 @@ angular.module('yvyUiApp')
             });
 
             primeraVez = false;
-          
+
           }else{
-            
+
             $.each(filtrosSelect, function(attr, array){ //ciclo por cada filtro existente
               $('#filtro_'+attr).find('option').remove().end();
               var options = _.reduce(array, function(memo, a){ return memo + '<option value="'+a+'">'+a+'</option>'; }, '');
@@ -121,8 +121,8 @@ angular.module('yvyUiApp')
 
         /* Funcion que crea los botones del filtro como selects envueltos*/
         function setup_checkbox_values(selector, filtered){
-            
-          var values = filtered;            
+
+          var values = filtered;
           _.each(values, function(d){
             var label = sprintf('<label class="btn btn-sm btn-primary filtro-ancho"><input type="checkbox">%s</label>', d);
             $(selector).append(label);
@@ -151,7 +151,7 @@ angular.module('yvyUiApp')
             position: 'left',
             autoPan: false
           });
-          
+
           $rootScope.$broadcast('filter-ready', panelSlider);
         }
 

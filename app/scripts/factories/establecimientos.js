@@ -9,8 +9,8 @@
  */
 angular.module('yvyUiApp')
   .factory('mapaEstablecimientoFactory', function($http, $q) {
-  	var urlBase = 'http://localhost:3000';
-  	//var urlBase = 'http://datos.mec.gov.py';
+  	//var urlBase = 'http://localhost:3000';
+  	var urlBase = 'http://datos.mec.gov.py';
 
   	var paramToKey = {
   		'01': 'cluster_departamento',

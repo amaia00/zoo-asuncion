@@ -1,0 +1,340 @@
+.info-box{
+    background-color: #fff;
+    border: 1px solid #999;
+    border-color: rgba(0,0,0,.4);
+    border-radius: 3px;
+    box-shadow: none;
+    padding: 0 10px 0 10px;
+    font-family: 'open_sansregular', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    z-index: -2;
+}
+
+/* Propiedades del loader*/
+#loader {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background:rgba(255, 255, 255, 0.6);
+    transition:background 1s ease-out;
+    -webkit-transition:background 1s ease-out;
+    z-index: 10000;
+}
+
+#loader.done {
+    background:rgba(255, 255, 255, 0);
+}
+
+#loader.hide {
+    display:none;
+}
+
+/* Propiedades del Mapa */
+#map {
+    height: 100%;
+    width:100%;
+    z-index: 1;
+    /*position: absolute;*/
+}
+
+#map-container{
+  height: 100%;
+  width:100%;
+}
+
+/* Propiedades del panel de filtros */
+.left-panel {
+  width: 240px;
+  background-color: #eee !important;
+  text-align: center;
+  overflow: auto;
+  background: none;
+}
+
+.leaflet-sidebar.left.visible{
+  width: 300px;
+}
+
+.leaflet-sidebar.left.visible ~ .leaflet-left {
+  left: 300px;
+}
+
+.left-panel + .close {
+  background: none;
+}
+
+/* Propiedades de los filtros */
+.filtro-ancho {
+  margin: 0px !important;
+  width: 180px !important;
+}
+
+/* Propiedades del panel Popup */
+.right-panel {
+  text-align: center;
+  width: 450px;
+  background-color: #eee !important;
+  color: #000000;
+  overflow: auto;
+}
+
+.right-panel h4 .label {
+  font-size: 100% !important;
+}
+
+.right-panel + .close {
+  right: 0px !important;
+  left: 20px;
+  background: none;
+}
+
+.right-panel table{
+  margin: 0 auto;
+  width:94%;
+  float:right;
+  margin-bottom: 23px;
+}
+
+.attr-title {
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Propiedades del boton */
+.btn-tag {
+  cursor: pointer;  
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 22px;
+  transition: .5s;
+  -webkit-transition: .5s;
+  -moz-transition: .5s;
+  -o-transition: .5s;
+}
+.btn-tag-slide {
+  margin-left: -40px;
+  position: absolute;
+  margin-top: 20%;
+  z-index: 2;
+  -ms-transform:rotate(270deg); /* IE 9 */
+  -moz-transform:rotate(270deg); /* Firefox */
+  -webkit-transform:rotate(270deg); /* Safari and Chrome */
+  -o-transform:rotate(270deg); /* Opera */  
+}
+
+.btn-tag:hover {
+  cursor: pointer;
+}
+
+.tag {
+  color: #0c7cd5 !important;
+  border: 2px #0c7cd5 solid;
+}
+
+.tag:hover {
+  color: #fff !important;
+  background-color: #2196f3;
+}
+
+h6{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.tag-red {
+  float:left;
+  width: 42px;
+  font-size: 1.8em;
+  font-weight: bold;
+  padding: 0px;
+  margin-top: -8px;
+  margin-left: -8px;
+}
+
+.close-btn:hover {
+  color: #cd2c67 !important;
+  text-decoration: none;
+}
+
+.close-btn{
+  font-family: "Helvetica Neue", Arial, Helvetica, serif;
+  background: #eee;
+  color: #df5656 !important;
+}
+
+.m4{
+  height: 78px !important;
+  line-height: 78px;
+  left: -33px;
+  top: -33px;
+  width: 78px !important;
+  text-align: center;
+  cursor: pointer;
+  color: black;
+  position: absolute;
+  font-size: 11px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  background-image: url(../images/m4.png);
+  background-position: 0px 0px;
+}
+
+.m3{
+  height: 66px !important;
+  line-height: 66px;
+  left: -27px;
+  top: -27px;
+  width: 66px !important;
+  text-align: center;
+  cursor: pointer;
+  color: black;
+  position: absolute;
+  font-size: 11px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  background-image: url(../images/m3.png);
+  background-position: 0px 0px;
+}
+
+.m2{
+  height: 56px !important;
+  line-height: 56px;
+  left: -22px;
+  top: -22px;
+  width: 56px !important;
+  text-align: center;
+  cursor: pointer;
+  color: black;
+  position: absolute;
+  font-size: 11px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  background-image: url(../images/m2.png);
+  background-position: 0px 0px;
+}
+
+.m1{
+  height: 53px !important;
+  line-height: 53px;
+  left: -20.5px;
+  top: -20.5px;
+  width: 53px !important;
+  text-align: center;
+  cursor: pointer;
+  color: black;
+  position: absolute;
+  font-size: 11px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  background-image: url(../images/m1.png);
+  background-position: 0px 0px;
+}
+
+.leaflet-control-cobertura, .leaflet-control-distancia{
+  background-color: #fff;
+  border: 1px solid #999;
+  border-color: rgba(0,0,0,.4);
+  border-radius: 3px;
+  box-shadow: none;
+  clear: none;
+}
+
+.leaflet-control-cobertura .input-group{
+  width: 85px;
+  height: 34px;
+}
+
+.leaflet-control-distancia .input-group{
+  width: 125px;
+  height: 34px; 
+}
+
+.leaflet-control-cobertura .input-group-addon, .leaflet-control-distancia .input-group-addon{
+  background-color: #eee;
+  border: 1px solid #ccc;
+}
+
+.leaflet-control-cobertura input, .leaflet-control-distancia input{
+  text-align: center;
+  height: 34px;
+}
+
+.leaflet-control input:focus,
+.leaflet-control input:hover,
+.leaflet-control input:active{
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.toggle-group{
+  height: 100%;
+}
+
+.toggle{
+  width: 100% !important;
+  height: 100% !important;
+  border-left-width: 0px;
+  border-top-width: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+}
+
+.toggle-on, .toggle-off{
+  border-left-width: 0px;
+  border-top-width: 0px;
+}
+
+
+pre.ui-distance {
+  position:absolute;
+  bottom:10px;
+  right:475px;
+  padding:5px 10px;
+  background:rgba(0,0,0,0.5);
+  color:#fff;
+  font-size:16px;
+  line-height:18px;
+  border-radius:3px;
+}
+
+.hidden{
+  visibility: hidden;
+}
+
+#mapa-filtro h6 {
+  margin-top: 10px;
+}
+
+.distance-icon {
+    background-image: url(../images/distance.png);
+    background-size: 25px 25px;
+    background-position: center;
+    background-repeat: no-repeat; 
+}
+
+.coverage-icon {
+    background-image: url(../images/coverage.png);
+    background-size: 25px 25px;
+    background-position: center;
+    background-repeat: no-repeat; 
+}
+
+.tooltip {
+  position: fixed;
+}
+
+.leaflet-control-layers-toggle {
+  background-image: url(../images/layers.png);
+  width: 36px;
+  height: 36px;
+  background-size: 80% auto;
+}
+
+.leaflet-retina .leaflet-control-layers-toggle {
+  background-image: url(../images/layers-2x.png);
+  background-size: 26px 26px;
+}

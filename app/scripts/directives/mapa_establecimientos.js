@@ -260,22 +260,16 @@ angular.module('yvyUiApp')
           var mapbox = layers.MAPBOX.on('load', tilesLoaded);
           var osm = layers.OPEN_STREET_MAPS.on('load', tilesLoaded);
 
-          var gglHybrid = layers.GOOGLE_HYBRID.on('MapObjectInitialized', setup_gmaps);
-          var gglRoadmap = layers.GOOGLE_ROADMAP.on('MapObjectInitialized', setup_gmaps);
-
-
-          var map = L.map('map', {maxZoom: 18, minZoom: 3, worldCopyJump: true, attributionControl: false})
-                  .setView([-24, -57.189], 7)
+          var map = L.map('map', {maxZoom: 20, minZoom: 17, worldCopyJump: true, attributionControl: false})
+                  .setView([-25.25032, -57.57210], 17)
                   .on('baselayerchange', startLoading);
 
           var baseMaps = {
               'Calles OpenStreetMap': osm,
               'Terreno': mapbox,
-              'Satélite': gglHybrid,
-              'Calles Google Maps': gglRoadmap
           };
           L.polyline([[0, 0], ]).addTo(map);
-          map.addLayer(gglRoadmap);
+          map.addLayer(osm);
 
           
 
@@ -703,13 +697,9 @@ angular.module('yvyUiApp')
             var mapbox = L.tileLayer(
                     'http://api.tiles.mapbox.com/v4/rparra.jmk7g7ep/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoicnBhcnJhIiwiYSI6IkEzVklSMm8ifQ.a9trB68u6h4kWVDDfVsJSg');
             var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {minZoom: 3});
-            var gglHybrid = new L.Google('HYBRID');
-            var gglRoadmap = new L.Google('ROADMAP');
             return {
                 MAPBOX: mapbox,
                 OPEN_STREET_MAPS: osm,
-                GOOGLE_HYBRID: gglHybrid,
-                GOOGLE_ROADMAP: gglRoadmap
             }
         };
 

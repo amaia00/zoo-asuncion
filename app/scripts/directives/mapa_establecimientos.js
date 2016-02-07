@@ -96,7 +96,7 @@ angular.module('yvyUiApp')
             return this.checked;
           }
         });
-         
+
         L.control.cobertura = function(id, options) {
           return new L.Control.Cobertura(id, options);
         }
@@ -149,7 +149,7 @@ angular.module('yvyUiApp')
             return this.value;
           }
         });
-         
+
         L.control.distancia = function(id, options) {
           return new L.Control.Distancia(id, options);
         }
@@ -159,7 +159,7 @@ angular.module('yvyUiApp')
 
         $('#map').data('right-sidebar-visible', false);
 
-        
+
         /* El watch nos permitira filtrar los establecimientos (y por consiguiente, los respectivos Markers) */
         scope.$watch('filtro', function(filtro){
           if(filtro){
@@ -184,7 +184,7 @@ angular.module('yvyUiApp')
             map.setView([-24, -57.189], 7, {animate: true});
           }
         };
-        
+
         var addUpdateHandlers = function(callback){
           //map.on('zoomend', updateMap);
           if(_.isFunction(callback)) callback();
@@ -192,7 +192,7 @@ angular.module('yvyUiApp')
         };
 
         var setDistancia = function(){
-          scope.$apply(function(){ 
+          scope.$apply(function(){
             scope.distancia = 0;
           });
         };
@@ -200,7 +200,7 @@ angular.module('yvyUiApp')
         scope.$on('detail-ready', function(e, sidebar){
           map.addControl(sidebar);
           detailSidebar = sidebar;
-          
+
           detailSidebar.on('hide', function(){
             if(scope.distancia > 0) { setDistancia(); }
             MECONF.fixedMarker = null;
@@ -238,7 +238,7 @@ angular.module('yvyUiApp')
 
         /* Funcion que reduce la lista de establecimientos acorde al filtro seleccionado */
         var filtrar_establecimientos = function(establecimientos, filtro){
-          var e =  
+          var e =
           { 'type' : 'FeatureCollection',
             'features' : []
           };
@@ -260,25 +260,37 @@ angular.module('yvyUiApp')
           var mapbox = layers.MAPBOX.on('load', tilesLoaded);
           var osm = layers.OPEN_STREET_MAPS.on('load', tilesLoaded);
 
-          var map = L.map('map', {maxZoom: 20, minZoom: 17, worldCopyJump: true, attributionControl: false})
-                  .setView([-25.25032, -57.57210], 17)
+
+          var map = L.map('map', {maxZoom: MECONF.zoomMax, minZoom: MECONF.zoomMin, worldCopyJump: true, attributionControl: false})
+                  .setView(mapaEstablecimientoFactory.getCentroZoo().features[0].geometry.coordinates, MECONF.zoomMin)
                   .on('baselayerchange', startLoading);
+
+      	  var geojson_data = mapaEstablecimientoFactory.getGeojson();
+
+          /* Agrega los puntos al mapa */
+          geojson_data.then(function(features){
+              L.geoJson(features).addTo(map);
+          });
 
           var baseMaps = {
               'Calles OpenStreetMap': osm,
               'Terreno': mapbox,
           };
+
           L.polyline([[0, 0], ]).addTo(map);
           map.addLayer(osm);
 
-          
 
+
+          /*Controles que después tenemos que quitar*/
           L.control.layers(baseMaps).addTo(map);
           MECONF.controlCobertura = L.control.cobertura('control-cobertura');
           map.addControl(MECONF.controlCobertura);
           MECONF.controlDistancia = L.control.distancia('control-distancia');
           map.addControl(MECONF.controlDistancia);
           $('[data-toggle="tooltip"]').tooltip();
+          /* ************************************ */
+
           //si el doble click ocurre en un control
           map.on('dblclick', function(e){
             if(e.originalEvent.target.id !== 'map' && e.originalEvent.target.tagName !== 'svg'){
@@ -324,11 +336,12 @@ angular.module('yvyUiApp')
           MECONF.infoBox.addTo(map);
 
           MECONF.geoJsonLayer = geoJson; //Sobre esta variable se aplican los filtros
-          
+
           MECONF.geoJsonLayer.on('click', onMarkerClick);
 
           MECONF.geoJsonLayer.on('mouseover', function(e){
-            var features, properties = e.layer.feature.properties;
+            /* Vamos a ver si nosotros usamos ésto */
+            /*var features, properties = e.layer.feature.properties;
             if(properties['periodo'] || properties.cantidad === 1){ //Hover para un solo establecimiento
               //nothing to do
             }else if(properties.cantidad && !properties.nombre_departamento && !properties.nombre_distrito && !properties.nombre_barrio_localidad){
@@ -341,9 +354,9 @@ angular.module('yvyUiApp')
                 return result;
               });
               MECONF.infoBox.update(features);
-            }
+            }*/
           });
-          
+
           MECONF.geoJsonLayer.on('mouseout', function(e){
             var properties = e.layer.feature.properties;
             if(properties['periodo'] || properties.cantidad === 1){
@@ -352,11 +365,11 @@ angular.module('yvyUiApp')
               MECONF.infoBox.update();
             }
           });
-          
+
           MECONF.geoJsonLayer.addTo(map);
 
           map.on('move', updateMap);
- 
+
         }
 
         var updateMap = _.throttle(function(){ draw_map(); }, 200);
@@ -367,14 +380,14 @@ angular.module('yvyUiApp')
           MECONF.currentZoom = MECONF.currentZoom || levelZoom;
           var redrawClusters = filtros || levelZoom !== MECONF.currentZoom;
 
-          if(filtros){
+          /*f(filtros){
             filterByLocalidad = _.filter(filtros, function(f){ return f.atributo === 'nombre_barrio_localidad' && f.valor.length; }).length > 0;
-            filterByDistrito = _.filter(filtros, function(f){ return f.atributo === 'nombre_distrito' && f.valor.length; }).length > 0 && !filterByLocalidad; 
+            filterByDistrito = _.filter(filtros, function(f){ return f.atributo === 'nombre_distrito' && f.valor.length; }).length > 0 && !filterByLocalidad;
             filterByDepartamento = _.filter(filtros, function(f){ return f.atributo === 'nombre_departamento' && f.valor.length; }).length > 0 && !filterByDistrito;
-            
-            if(filterByDepartamento) maxZoom = MECONF.nivelesZoom['departamento'] - 1; 
-            if(filterByDistrito) maxZoom = MECONF.nivelesZoom['distrito'] - 1; 
-            if(filterByLocalidad) maxZoom = MECONF.nivelesZoom['barrio_localidad'] - 1; 
+
+            if(filterByDepartamento) maxZoom = MECONF.nivelesZoom['departamento'] - 1;
+            if(filterByDistrito) maxZoom = MECONF.nivelesZoom['distrito'] - 1;
+            if(filterByLocalidad) maxZoom = MECONF.nivelesZoom['barrio_localidad'] - 1;
             if(!filterByDepartamento && !filterByDistrito && !filterByLocalidad){
               maxZoom = MECONF.nivelesZoom['departamento'] - 1;
             }
@@ -387,7 +400,7 @@ angular.module('yvyUiApp')
           }else{
             e = MECONF.geoJsonLayer.getGeoJSON();
           }
-          
+
           var afterFit = function(){ drawVisibleMarkers(e)};
           var outerBounds;
 
@@ -404,7 +417,7 @@ angular.module('yvyUiApp')
 
             $timeout(function(){
               if(scope.distancia > 0){
-                setDistancia(); 
+                setDistancia();
                 removePolygons(L.Polyline);
               }
             });
@@ -412,9 +425,9 @@ angular.module('yvyUiApp')
           }else{
             drawVisibleMarkers(e);
           }
-          
+
           MECONF.currentZoom = levelZoom;
-          return {map: map};
+          return {map: map};*/
         };
 
         var drawVisibleMarkers = function(e){
@@ -475,7 +488,7 @@ angular.module('yvyUiApp')
           var clusterIndex = mapaEstablecimientoFactory.getClusterIndex(tipo_cluster);
           var coordinatesIndex = {};
 
-          var e =  
+          var e =
           { 'type' : 'FeatureCollection',
             'features' : []
           };
@@ -507,8 +520,8 @@ angular.module('yvyUiApp')
           */
           _.forOwn(clusterIndex, function(c, k){
             if(c.properties.cantidad === 1){
-              c.geometry.coordinates = coordinatesIndex[k];    
-            } 
+              c.geometry.coordinates = coordinatesIndex[k];
+            }
           });
 
           e.features = _(clusterIndex).values().filter(function(f){ return f.properties.cantidad; }).value();
@@ -681,17 +694,19 @@ angular.module('yvyUiApp')
           MECONF.tilesLoaded = true;
           finishedLoading();
         }
-       
+
         //Configuracion del Gmaps listener
         var setup_gmaps = function() {
           google.maps.event.addListenerOnce(this._google, 'tilesloaded', tilesLoaded);
         };
 
-        /******************************** INICIO **************************************/        
-        
+        /******************************** INICIO **************************************/
+
         //Detalles de la configuracion del mapa
         var MECONF = MECONF || {};
         MECONF.tilesLoaded = false;
+        MECONF.zoomMin = 17; // Se define el zoom inicial del mapa
+        MECONF.zoomMax = 20; // Se define el zoom máximo del mapa
 
         MECONF.LAYERS = function () {
             var mapbox = L.tileLayer(

@@ -280,6 +280,19 @@ angular.module('yvyUiApp')
 						}
 					]
 		        }
+			},
+			getGeojson: function(){
+				var req = {
+					method: 'GET',
+					dataType: 'json',
+					url: 'http://localhost:9000/#' + '/geojson',
+					params: {},
+					headers: {
+						'Content-Type' : 'application/json; charset=UTF-8'
+					}
+				};
+
+				return $http(req);
 			}
 	}; //return
 });

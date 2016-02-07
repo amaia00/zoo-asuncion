@@ -33,6 +33,9 @@ angular
         templateUrl: 'views/mapa_establecimientos.html',
         controller: 'MapaEstablecimientosCtrl'
       })
+      .when('/geojson', {
+	      templateUrl:'data/zoo-as.geojson'
+      })
       .otherwise({
         redirectTo: '/'
       });

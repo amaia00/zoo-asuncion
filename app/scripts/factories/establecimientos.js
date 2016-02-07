@@ -45,7 +45,7 @@ angular.module('yvyUiApp')
     return {
 
 			getDatosCluster: function(parametro){
-				
+
 				var defered = $q.defer();
 				var promise = defered.promise;
 
@@ -83,8 +83,8 @@ angular.module('yvyUiApp')
 			getClusterIndex: function(key){
 
 				if(clusterIndexes[key]){
-					return  (key === 'instituciones') 
-						? clusterIndexes[key] 
+					return  (key === 'instituciones')
+						? clusterIndexes[key]
 						: _.mapValues(clusterIndexes[key], function(c){
 						 	c.properties.cantidad = 0;
 							return c;
@@ -92,7 +92,7 @@ angular.module('yvyUiApp')
 				}else{
 					console.log('Invalid cluster key');
 				}
-				
+
 			},
 
 			getCantidadEstablecimientos: function(tipo, establecimientosVisibles){
@@ -110,7 +110,7 @@ angular.module('yvyUiApp')
 	          var clusterIndex = this.getClusterIndex(tipo_cluster);
 	          var coordinatesIndex = {};
 
-	          var e =  
+	          var e =
 	          { 'type' : 'FeatureCollection',
 	            'features' : []
 	          };
@@ -166,7 +166,7 @@ angular.module('yvyUiApp')
 				}else{
 					return this.getCentroPais().features[0];
 				}
-				
+
 				return _.find(children, function(c){
 					var result = c.properties['nombre_departamento'] === e.properties['nombre_departamento'];
 					if(e.properties['nombre_distrito']) result = result && c.properties['nombre_distrito'] === e.properties['nombre_distrito'];
@@ -210,7 +210,7 @@ angular.module('yvyUiApp')
 								});
 						}
 
-					});	
+					});
 				}
 
 			},
@@ -262,7 +262,8 @@ angular.module('yvyUiApp')
 				    }
 				};
 
-				return $http(req).then(function(result){ return result.data; });
+				return $http(req).then(function(result){
+          return result.data; });
 
 			},
 
@@ -281,18 +282,39 @@ angular.module('yvyUiApp')
 					]
 		        }
 			},
+
+      /* retorna el punto donde estará centrado el mapa */
+      getCentroZoo: function(){
+        return {
+          'type': 'FeatureCollection',
+					'features': [
+						{
+						'geometry': {
+						'coordinates': [-25.25032, -57.57210],
+						'type': "Point"
+						},
+						'properties': {},
+						'type': 'Feature'
+						}
+					]
+        }
+      },
+
 			getGeojson: function(){
 				var req = {
 					method: 'GET',
 					dataType: 'json',
-					url: 'http://localhost:9000/#' + '/geojson',
+					url: 'https://jsonblob.com/api/company/56b6a7c0e4b01190df4d6287',
 					params: {},
+          async: false,
 					headers: {
 						'Content-Type' : 'application/json; charset=UTF-8'
 					}
 				};
 
-				return $http(req);
-			}
-	}; //return
+				return $http(req).then(function(result){
+            return result.data;
+        });
+		}
+	};
 });

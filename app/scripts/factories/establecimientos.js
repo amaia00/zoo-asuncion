@@ -31,21 +31,10 @@ angular.module('yvyUiApp')
                 }
             },
 
-            getGeojson: function () {
-                var req = {
-                    method: 'GET',
-                    dataType: 'json',
-                    url: 'https://jsonblob.com/api/company/56b6a7c0e4b01190df4d6287',
-                    params: {},
-                    async: false,
-                    headers: {
-                        'Content-Type': 'application/json; charset=UTF-8'
-                    }
-                };
-
-                return $http(req).then(function (result) {
-                    return result.data;
+			getGeojson: function(){
+                return $http.get('data/zoo-as.geojson').then(function(response){
+                        return response.data
                 });
-            }
-        };
-    });
+		    }
+	    };
+});

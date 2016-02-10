@@ -85,21 +85,6 @@ angular.module('yvyUiApp')
           });
         });
 
-        scope.$on('filter-ready', function(e, sidebar){
-          map.addControl(sidebar);
-          filterSidebar = sidebar;
-          $(sidebar.getContainer()).removeClass('hidden');
-
-          filterSidebar.on('hidden', function(){
-            $('#left-panel').show();
-          });
-
-          filterSidebar.on('shown', function(){
-            $('#left-panel').hide();
-          });
-        });
-
-
         /* Funcion que reduce la lista de establecimientos acorde al filtro seleccionado */
         var filtrar_establecimientos = function(establecimientos, filtro){
           var e =
@@ -121,13 +106,15 @@ angular.module('yvyUiApp')
 
           var layers = MECONF.LAYERS();
           var osm = layers.OPEN_STREET_MAPS.on('load', tilesLoaded);
+          var mapQuestOPen  = layers.MAPQUEST.on('load', tilesLoaded);
 
 
           var map = L.map('map', {maxZoom: MECONF.zoomMax, minZoom: MECONF.zoomMin, worldCopyJump: true, attributionControl: false})
                   .setView(mapaEstablecimientoFactory.getCentroZoo().features[0].geometry.coordinates, MECONF.zoomMin)
                   .on('baselayerchange', startLoading);
 
-      	  var geojson_data = mapaEstablecimientoFactory.getGeojson();
+
+          var geojson_data = mapaEstablecimientoFactory.getGeojson();
 
           /* Agrega los puntos al mapa */
           geojson_data.then(function(features){
@@ -135,8 +122,32 @@ angular.module('yvyUiApp')
               MECONF.geoJsonFeatures = features;
           });
 
+          var baseMaps = {
+              'Calles OpenStreetMap': osm,
+              'Terreno': mapbox,
+              'Satelital': mapQuestOPen,
+          };
+
+          L.polyline([[0, 0], ]).addTo(map);
           map.addLayer(osm);
 
+
+
+          /*Controles que después tenemos que quitar*/
+          L.control.layers(baseMaps).addTo(map);
+          MECONF.controlCobertura = L.control.cobertura('control-cobertura');
+          map.addControl(MECONF.controlCobertura);
+          MECONF.controlDistancia = L.control.distancia('control-distancia');
+          map.addControl(MECONF.controlDistancia);
+          $('[data-toggle="tooltip"]').tooltip();
+          /* ************************************ */
+
+          //si el doble click ocurre en un control
+          map.on('dblclick', function(e){
+            if(e.originalEvent.target.id !== 'map' && e.originalEvent.target.tagName !== 'svg'){
+              map.doubleClickZoom.disable();
+            }
+          });
           return map;
         };
 
@@ -525,9 +536,16 @@ angular.module('yvyUiApp')
          * @constructor
            */
         MECONF.LAYERS = function () {
-            var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {minZoom: 17});
+            var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {minZoom: 3});
+            var MapQuestOpen_Aerial = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
+              	type: 'sat',
+              	ext: 'jpg',
+              	attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency',
+              	subdomains: '1234'
+              });
             return {
-                OPEN_STREET_MAPS: osm
+                OPEN_STREET_MAPS: osm,
+                MAPQUEST: MapQuestOpen_Aerial,
             }
         };
 

@@ -19,148 +19,11 @@ angular.module('yvyUiApp')
       templateUrl: 'views/templates/template_mapa.html',
       link: function postLink(scope, element, attrs) {
         var detailSidebar, filterSidebar, filterFlag = false;
-        L.Control.Cobertura = L.Control.extend({
-          options: {
-            // topright, topleft, bottomleft, bottomright
-            position: 'topright',
-            checked: false
-          },
-          initialize: function (options) {
-            L.Util.setOptions(this, options);
-          },
-          onAdd: function (map) {
-            var self = this;
-            var container = L.DomUtil.create('div', 'leaflet-control-cobertura');
-            this.form = L.DomUtil.create('form', 'form-inline', container);
-            this.form.setAttribute('onsubmit', 'return false');
-            var group = L.DomUtil.create('div', 'input-group', this.form);
-            var prefix = L.DomUtil.create('span', 'input-group-addon coverage-icon', group);
-            prefix.setAttribute('data-toggle', 'tooltip');
-            prefix.setAttribute('data-placement', 'bottom');
-            prefix.setAttribute('title', 'Con este control puedes visualizar la cobertura del establecimiento educativo seleccionado o la de todos los establecimientos visibles');
-            //prefix.textContent = 'Cobertura:'
-            this.input = L.DomUtil.create('input', 'form-control input-sm', group);
-            this.input.setAttribute('min', '0');
-            this.input.type = 'number';
-            this.input.setAttribute('ng-model', 'data');
-            var group2 = L.DomUtil.create('div', 'input-group', this.form);
-            this.toggle = L.DomUtil.create('input', 'form-control input-sm', group2);
-
-            $(this.toggle).bootstrapToggle({
-              on: 'Todos',
-              off: 'Uno'
-            });
-            this.toggle.type = 'checkbox';
-            this.toggle.checked = this.options.checked;
-            this.checked = this.options.checked;
-            this.proxiedToggleChange = function(e){ self.toggleChange.call(self, e); }
-            $(this.toggle).on('change', this.proxiedToggleChange);
-
-            //var postfix = L.DomUtil.create('span', 'input-group-addon', group);
-            //postfix.textContent = 'metros'
-            this.debouncedChange = _.debounce(this.onChange, 300);
-            this.debouncedDblClick = _.debounce(this.onDblClick, 300)
-            L.DomEvent.addListener(this.input, 'change', this.debouncedChange, this);
-            L.DomEvent.addListener(this.form, 'dblclick', this.debouncedDblClick, this);
-            this.userChangeFlag = false;
-            return container;
-          },
-          onRemove: function (map) {
-            L.DomEvent.removeListener(this.input, 'change', this.debouncedChange);
-            L.DomEvent.removeListener(this.form, 'dblclick', this.debouncedDblClick);
-          },
-          onChange: function(e) {
-            this.userChangeFlag = true;
-            map.eachLayer(function(layer){
-              if(layer instanceof L.Circle) layer.setRadius(e.target.value);
-            });
-          },
-          toggleChange: function(e) {
-            this.checked = e.target.checked;
-            draw_map();
-          },
-          onDblClick: function(e) {
-            map.doubleClickZoom.enable();
-          },
-          setValue: function(v) {
-            this.userChangeFlag = false;
-            this.input.value = v;
-          },
-          getValue: function() {
-            return this.input.value;
-          },
-          lastChangeByUser: function() {
-            return this.userChangeFlag;
-          },
-          generalCoverageEnabled: function() {
-            return this.checked;
-          }
-        });
-
-        L.control.cobertura = function(id, options) {
-          return new L.Control.Cobertura(id, options);
-        }
-
-        L.Control.Distancia = L.Control.extend({
-          options: {
-            // topright, topleft, bottomleft, bottomright
-            position: 'topright',
-            checked: false
-          },
-          initialize: function (options) {
-            L.Util.setOptions(this, options);
-          },
-          onAdd: function (map) {
-            var self = this;
-            var container = L.DomUtil.create('div', 'leaflet-control-distancia');
-            this.form = L.DomUtil.create('form', 'form', container);
-            this.form.setAttribute('onsubmit', 'return false');
-            var group = L.DomUtil.create('div', 'input-group', this.form);
-            var prefix = L.DomUtil.create('span', 'input-group-addon distance-icon', group);
-            prefix.setAttribute('data-toggle', 'tooltip');
-            prefix.setAttribute('data-placement', 'bottom');
-            prefix.setAttribute('title', 'Activando este control, puedes calcular la distancia entre dos establecimientos educativos');
-            //prefix.textContent = 'Cálculo Distancia:'
-            this.input = L.DomUtil.create('input', 'form-control input-sm', group);
-
-            $(this.input).bootstrapToggle({
-              on: 'Activo',
-              off: 'Inactivo'
-            });
-            this.input.type = 'checkbox';
-            this.input.checked = this.options.checked;
-            this.value = this.options.checked;
-            this.proxiedOnChange = function(e){ self.onChange.call(self, e); }
-            $(this.input).on('change', this.proxiedOnChange);
-            L.DomEvent.addListener(this.form, 'dblclick', this.onDblClick, this);
-            return container;
-          },
-          onRemove: function (map) {
-            $(this.input).off('change', this.proxiedOnChange);
-            L.DomEvent.removeListener(this.form, 'dblclick', this.onDblClick);
-          },
-          onChange: function(e) {
-            this.value = e.target.checked;
-          },
-          onDblClick: function(e) {
-            map.doubleClickZoom.enable();
-          },
-          getValue: function(){
-            return this.value;
-          }
-        });
-
-        L.control.distancia = function(id, options) {
-          return new L.Control.Distancia(id, options);
-        }
-
-
-        var invalidateSize = function(animate){ map.invalidateSize(animate); };
 
         $('#map').data('right-sidebar-visible', false);
 
-
         /* El watch nos permitira filtrar los establecimientos (y por consiguiente, los respectivos Markers) */
+          /* TODO: Redefinir este método si necesitamos filtrar de alguna manera */
         scope.$watch('filtro', function(filtro){
           if(filtro){
             var establecimientos_visibles = establecimientos;
@@ -201,20 +64,21 @@ angular.module('yvyUiApp')
           map.addControl(sidebar);
           detailSidebar = sidebar;
 
-          detailSidebar.on('hide', function(){
-            if(scope.distancia > 0) { setDistancia(); }
-            MECONF.fixedMarker = null;
-            removePolygons();
-          });
+          //detailSidebar.on('hide', function(){
+          //  if(scope.distancia > 0) { setDistancia(); }
+          //  MECONF.fixedMarker = null;
+          //  removePolygons();
+          //});
 
           detailSidebar.on('hidden', function(){
             MECONF.infoBox.update(MECONF.establecimientosVisibles.features);
             draw_map();
           });
 
-          detailSidebar.on('show', function(){
-            map.panTo(MECONF.fixedMarker.getLatLng());
-          });
+            // Descomentar en caso de querer centrar la vista en el elemento seleccionado
+          //detailSidebar.on('show', function(){
+          //  map.panTo(MECONF.fixedMarker.getLatLng());
+          //});
 
           detailSidebar.on('shown', function(){
             draw_map();
@@ -255,9 +119,7 @@ angular.module('yvyUiApp')
 
           startLoading();
 
-          L.mapbox.accessToken = 'pk.eyJ1IjoicnBhcnJhIiwiYSI6IkEzVklSMm8ifQ.a9trB68u6h4kWVDDfVsJSg';
           var layers = MECONF.LAYERS();
-          var mapbox = layers.MAPBOX.on('load', tilesLoaded);
           var osm = layers.OPEN_STREET_MAPS.on('load', tilesLoaded);
 
 
@@ -270,51 +132,29 @@ angular.module('yvyUiApp')
           /* Agrega los puntos al mapa */
           geojson_data.then(function(features){
               L.geoJson(features).addTo(map);
+              MECONF.geoJsonFeatures = features;
           });
 
-          var baseMaps = {
-              'Calles OpenStreetMap': osm,
-              'Terreno': mapbox,
-          };
-
-          L.polyline([[0, 0], ]).addTo(map);
           map.addLayer(osm);
 
-
-
-          /*Controles que después tenemos que quitar*/
-          L.control.layers(baseMaps).addTo(map);
-          MECONF.controlCobertura = L.control.cobertura('control-cobertura');
-          map.addControl(MECONF.controlCobertura);
-          MECONF.controlDistancia = L.control.distancia('control-distancia');
-          map.addControl(MECONF.controlDistancia);
-          $('[data-toggle="tooltip"]').tooltip();
-          /* ************************************ */
-
-          //si el doble click ocurre en un control
-          map.on('dblclick', function(e){
-            if(e.originalEvent.target.id !== 'map' && e.originalEvent.target.tagName !== 'svg'){
-              map.doubleClickZoom.disable();
-            }
-          });
           return map;
         };
 
-        var getMarkerClass = function(feature){
-          var clazz = 'm1';
-          if(feature.properties.cantidad > 9) clazz = 'm2';
-          if(feature.properties.cantidad > 99) clazz = 'm3';
-          if(feature.properties.cantidad > 999) clazz = 'm4';
-          return clazz;
-        }
-
         var draw_markers = function(){
-          var geoJson = L.mapbox.featureLayer();
+          var geoJson = L.geoJson();
 
           geoJson.on('layeradd', function (e) {
             var content, icon, color, marker = e.layer,
                     feature = marker.feature;
 
+            if (feature.properties['natural'] == 'tree'){
+              color = 'green';
+              icon = L.AwesomeMarkers.icon({
+                icon: 'tree-deciduous',
+                markerColor: color,
+                prefix: 'glyphicon'
+              });
+            }
             if (feature.properties['periodo'] || feature.properties.cantidad === 1) {
               color = 'orange';
               icon = L.AwesomeMarkers.icon({
@@ -322,11 +162,12 @@ angular.module('yvyUiApp')
                 markerColor: color,
                 prefix: 'glyphicon'
               });
-            }else if(feature.properties.cantidad > 1){
-              content = sprintf('<div>%s</div>', feature.properties.cantidad);
-              icon = L.divIcon({
-                className: getMarkerClass(feature),
-                html: content
+            }else {
+              color = 'red';
+              icon = L.AwesomeMarkers.icon({
+                icon: 'grain',
+                markerColor: color,
+                prefix: 'glyphicon'
               });
             }
             marker.setIcon(icon);
@@ -340,21 +181,6 @@ angular.module('yvyUiApp')
           MECONF.geoJsonLayer.on('click', onMarkerClick);
 
           MECONF.geoJsonLayer.on('mouseover', function(e){
-            /* Vamos a ver si nosotros usamos ésto */
-            /*var features, properties = e.layer.feature.properties;
-            if(properties['periodo'] || properties.cantidad === 1){ //Hover para un solo establecimiento
-              //nothing to do
-            }else if(properties.cantidad && !properties.nombre_departamento && !properties.nombre_distrito && !properties.nombre_barrio_localidad){
-              MECONF.infoBox.update();
-            }else{
-              features = _.filter(MECONF.establecimientosVisibles.features, function(n) {
-                var result = _.deburr(n.properties['nombre_departamento']) == _.deburr(properties.nombre_departamento);
-                if(properties.nombre_distrito){ result = result && _.deburr(n.properties['nombre_distrito']) == _.deburr(properties.nombre_distrito); }
-                if(properties.nombre_barrio_localidad){ result = result && _.deburr(n.properties['nombre_barrio_localidad']) == _.deburr(properties.nombre_barrio_localidad); }
-                return result;
-              });
-              MECONF.infoBox.update(features);
-            }*/
           });
 
           MECONF.geoJsonLayer.on('mouseout', function(e){
@@ -380,7 +206,7 @@ angular.module('yvyUiApp')
           MECONF.currentZoom = MECONF.currentZoom || levelZoom;
           var redrawClusters = filtros || levelZoom !== MECONF.currentZoom;
 
-          /*f(filtros){
+          if(filtros){
             filterByLocalidad = _.filter(filtros, function(f){ return f.atributo === 'nombre_barrio_localidad' && f.valor.length; }).length > 0;
             filterByDistrito = _.filter(filtros, function(f){ return f.atributo === 'nombre_distrito' && f.valor.length; }).length > 0 && !filterByLocalidad;
             filterByDepartamento = _.filter(filtros, function(f){ return f.atributo === 'nombre_departamento' && f.valor.length; }).length > 0 && !filterByDistrito;
@@ -394,12 +220,8 @@ angular.module('yvyUiApp')
             levelZoom = maxZoom;
           }
 
-
-          if(redrawClusters){
-            e = getClusterByZoom(levelZoom);
-          }else{
-            e = MECONF.geoJsonLayer.getGeoJSON();
-          }
+          //e = MECONF.geoJsonLayer.getGeoJSON();
+          e = MECONF.geoJsonFeatures;
 
           var afterFit = function(){ drawVisibleMarkers(e)};
           var outerBounds;
@@ -407,7 +229,8 @@ angular.module('yvyUiApp')
           if(redrawClusters){
             MECONF.infoBox.update(MECONF.establecimientosVisibles.features);
             if(filtros){
-              MECONF.geoJsonLayer.setGeoJSON(e);
+              //MECONF.geoJsonLayer.setGeoJSON(e);
+              MECONF.geoJsonLayer.geoJsonFeatures;
               outerBounds = MECONF.geoJsonLayer.getBounds();
               fitMap(map, outerBounds, maxZoom, afterFit);
               levelZoom = map.getZoom();
@@ -427,7 +250,7 @@ angular.module('yvyUiApp')
           }
 
           MECONF.currentZoom = levelZoom;
-          return {map: map};*/
+          return {map: map};
         };
 
         var drawVisibleMarkers = function(e){
@@ -438,7 +261,8 @@ angular.module('yvyUiApp')
             return bounds.contains(latLon);
           });
 
-          MECONF.geoJsonLayer.setGeoJSON(e);
+          MECONF.geoJsonfeatures = e;
+            /*
           if(MECONF.controlCobertura.generalCoverageEnabled()){
             _.each(e.features, function(f) {
               if(f.properties.cantidad === 1 || f.properties.codigo_establecimiento){
@@ -452,25 +276,9 @@ angular.module('yvyUiApp')
           }else{
             drawDetailCoverage();
           }
+          */
 
           //MECONF.currentZoom = levelZoom;
-        }
-
-        var getClusterByZoom = function(levelZoom){
-          var e;
-          if(levelZoom < MECONF.nivelesZoom['pais']){
-            e = mapaEstablecimientoFactory.getCantidadEstablecimientos('pais', MECONF.establecimientosVisibles);
-          } else if (levelZoom < MECONF.nivelesZoom['departamento']) { //cluster por departamento (por defecto)
-            e = mapaEstablecimientoFactory.getCantidadEstablecimientos('departamento', MECONF.establecimientosVisibles);
-          } else if ((levelZoom >= MECONF.nivelesZoom['departamento'] && levelZoom < MECONF.nivelesZoom['distrito'])) { //cluster por distrito
-            e = mapaEstablecimientoFactory.getCantidadEstablecimientos('distrito', MECONF.establecimientosVisibles);
-          } else if ((levelZoom >= MECONF.nivelesZoom['distrito'] && levelZoom < MECONF.nivelesZoom['barrio_localidad'])) { //cluster por barrio/localidad
-            e = mapaEstablecimientoFactory.getCantidadEstablecimientos('barrio_localidad', MECONF.establecimientosVisibles);
-          }else{
-            e = _.clone(MECONF.establecimientosVisibles);
-          }
-          MECONF.allFeatures = e.features;
-          return e;
         }
 
         /* Funcion que filtra el cluster a mostrar, ya sea por Departamentos/Distritos/BarrioLocalidad */
@@ -706,15 +514,20 @@ angular.module('yvyUiApp')
         var MECONF = MECONF || {};
         MECONF.tilesLoaded = false;
         MECONF.zoomMin = 17; // Se define el zoom inicial del mapa
-        MECONF.zoomMax = 20; // Se define el zoom máximo del mapa
+        MECONF.zoomMax = 19; // Se define el zoom máximo del mapa
 
+        /**
+         * This function returns a JSON object with the tileLayer providers
+         * in this version just OpenStreetMaps is used, but any other tileLayer
+         * provider can be added
+         *
+         * @returns {{OPEN_STREET_MAPS}}
+         * @constructor
+           */
         MECONF.LAYERS = function () {
-            var mapbox = L.tileLayer(
-                    'http://api.tiles.mapbox.com/v4/rparra.jmk7g7ep/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoicnBhcnJhIiwiYSI6IkEzVklSMm8ifQ.a9trB68u6h4kWVDDfVsJSg');
-            var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {minZoom: 3});
+            var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {minZoom: 17});
             return {
-                MAPBOX: mapbox,
-                OPEN_STREET_MAPS: osm,
+                OPEN_STREET_MAPS: osm
             }
         };
 
@@ -737,6 +550,6 @@ angular.module('yvyUiApp')
           filterSidebar.show();
         }
 
-      }//link: function postLink(scope, element, attrs) {
+      }
     };
   });

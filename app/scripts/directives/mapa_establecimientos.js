@@ -115,29 +115,26 @@ angular.module('yvyUiApp')
             var container = L.DomUtil.create('div', 'leaflet-control-distancia');
             this.form = L.DomUtil.create('form', 'form', container);
             this.form.setAttribute('onsubmit', 'return false');
-            var group = L.DomUtil.create('div', 'input-group', this.form);
+            /*var group = L.DomUtil.create('div', 'input-group', this.form);
             var prefix = L.DomUtil.create('span', 'input-group-addon distance-icon', group);
             prefix.setAttribute('data-toggle', 'tooltip');
             prefix.setAttribute('data-placement', 'bottom');
             prefix.setAttribute('title', 'Activando este control, puedes calcular la distancia entre dos establecimientos educativos');
             //prefix.textContent = 'Cálculo Distancia:'
-            this.input = L.DomUtil.create('input', 'form-control input-sm', group);
+            this.input = L.DomUtil.create('input', 'form-control input-sm', group);*/
 
-            $(this.input).bootstrapToggle({
-              on: 'Activo',
-              off: 'Inactivo'
-            });
-            this.input.type = 'checkbox';
+
+            /*this.input.type = 'checkbox';
             this.input.checked = this.options.checked;
             this.value = this.options.checked;
             this.proxiedOnChange = function(e){ self.onChange.call(self, e); }
             $(this.input).on('change', this.proxiedOnChange);
-            L.DomEvent.addListener(this.form, 'dblclick', this.onDblClick, this);
+            L.DomEvent.addListener(this.form, 'dblclick', this.onDblClick, this);*/
             return container;
           },
           onRemove: function (map) {
             $(this.input).off('change', this.proxiedOnChange);
-            L.DomEvent.removeListener(this.form, 'dblclick', this.onDblClick);
+            L.DomEvent.removeLbtn-groupistener(this.form, 'dblclick', this.onDblClick);
           },
           onChange: function(e) {
             this.value = e.target.checked;
@@ -221,21 +218,6 @@ angular.module('yvyUiApp')
           });
         });
 
-        scope.$on('filter-ready', function(e, sidebar){
-          map.addControl(sidebar);
-          filterSidebar = sidebar;
-          $(sidebar.getContainer()).removeClass('hidden');
-
-          filterSidebar.on('hidden', function(){
-            $('#left-panel').show();
-          });
-
-          filterSidebar.on('shown', function(){
-            $('#left-panel').hide();
-          });
-        });
-
-
         /* Funcion que reduce la lista de establecimientos acorde al filtro seleccionado */
         var filtrar_establecimientos = function(establecimientos, filtro){
           var e =
@@ -259,22 +241,24 @@ angular.module('yvyUiApp')
           var layers = MECONF.LAYERS();
           var mapbox = layers.MAPBOX.on('load', tilesLoaded);
           var osm = layers.OPEN_STREET_MAPS.on('load', tilesLoaded);
+          var mapQuestOPen  = layers.MAPQUEST.on('load', tilesLoaded);
 
 
           var map = L.map('map', {maxZoom: MECONF.zoomMax, minZoom: MECONF.zoomMin, worldCopyJump: true, attributionControl: false})
                   .setView(mapaEstablecimientoFactory.getCentroZoo().features[0].geometry.coordinates, MECONF.zoomMin)
                   .on('baselayerchange', startLoading);
 
-      	  var geojson_data = mapaEstablecimientoFactory.getGeojson();
 
-          /* Agrega los puntos al mapa */
+          var geojson_data = mapaEstablecimientoFactory.getGeojson();
+
           geojson_data.then(function(features){
-              L.geoJson(features).addTo(map);
+            L.geoJson(features).addTo(map);
           });
 
           var baseMaps = {
               'Calles OpenStreetMap': osm,
               'Terreno': mapbox,
+              'Satelital': mapQuestOPen,
           };
 
           L.polyline([[0, 0], ]).addTo(map);
@@ -341,7 +325,7 @@ angular.module('yvyUiApp')
 
           MECONF.geoJsonLayer.on('mouseover', function(e){
             /* Vamos a ver si nosotros usamos ésto */
-            /*var features, properties = e.layer.feature.properties;
+            var features, properties = e.layer.feature.properties;
             if(properties['periodo'] || properties.cantidad === 1){ //Hover para un solo establecimiento
               //nothing to do
             }else if(properties.cantidad && !properties.nombre_departamento && !properties.nombre_distrito && !properties.nombre_barrio_localidad){
@@ -354,7 +338,7 @@ angular.module('yvyUiApp')
                 return result;
               });
               MECONF.infoBox.update(features);
-            }*/
+            }
           });
 
           MECONF.geoJsonLayer.on('mouseout', function(e){
@@ -380,7 +364,7 @@ angular.module('yvyUiApp')
           MECONF.currentZoom = MECONF.currentZoom || levelZoom;
           var redrawClusters = filtros || levelZoom !== MECONF.currentZoom;
 
-          /*f(filtros){
+          if(filtros){
             filterByLocalidad = _.filter(filtros, function(f){ return f.atributo === 'nombre_barrio_localidad' && f.valor.length; }).length > 0;
             filterByDistrito = _.filter(filtros, function(f){ return f.atributo === 'nombre_distrito' && f.valor.length; }).length > 0 && !filterByLocalidad;
             filterByDepartamento = _.filter(filtros, function(f){ return f.atributo === 'nombre_departamento' && f.valor.length; }).length > 0 && !filterByDistrito;
@@ -427,7 +411,7 @@ angular.module('yvyUiApp')
           }
 
           MECONF.currentZoom = levelZoom;
-          return {map: map};*/
+          return {map: map};
         };
 
         var drawVisibleMarkers = function(e){
@@ -712,9 +696,16 @@ angular.module('yvyUiApp')
             var mapbox = L.tileLayer(
                     'http://api.tiles.mapbox.com/v4/rparra.jmk7g7ep/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoicnBhcnJhIiwiYSI6IkEzVklSMm8ifQ.a9trB68u6h4kWVDDfVsJSg');
             var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {minZoom: 3});
+            var MapQuestOpen_Aerial = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
+              	type: 'sat',
+              	ext: 'jpg',
+              	attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency',
+              	subdomains: '1234'
+              });
             return {
                 MAPBOX: mapbox,
                 OPEN_STREET_MAPS: osm,
+                MAPQUEST: MapQuestOpen_Aerial,
             }
         };
 

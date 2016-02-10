@@ -23,10 +23,10 @@ angular.module('yvyUiApp')
         $('.tooltip-bottom').tooltip({placement:'bottom'});
 
         //Botones, el primer parametro es el ID del filtro, el segundo parametro representa la lista de valores posibles
-        var filtrosBotones = {nombre_zona:['BAÑOS', 'FUENTE DE AGUA', 'MUSEO', 'AREA DE DESCANSO', 'ESTACIONAMIENTOS', 'ASIENTOS']};
+        var filtrosBotones = {nombre_zona:['BAÑOS', 'FUENTE DE AGUA', 'MUSEO', 'AREA DE DESCANSO', 'ESTACIONAMIENTOS', 'ASIENTOS', 'CESTOS DE BASURA', 'CANTINA', 'GUARDA BOSQUE', 'UNIDAD DE CRIANZA']};
 
         //Definicion de un array, donde cada indice representa el filtro (Ej: departamento, distrito), donde cada indice esta asociado a un array con los valores posibles para el mismo
-        var filtrosSelect = {nombre_animal:[]};
+        var filtrosSelect = {nombre_animal:[], tipo_animal: []};
 
         /*
         Funcion que se ejecuta por cada parametro nuevo de filtrado. En la misma se reconstruyen los filtros, y posteriormente,
@@ -82,11 +82,11 @@ angular.module('yvyUiApp')
           if (primeraVez === true) {
 
             //Append a las listas desplegables
-            $.each(filtrosSelect, function(attr, array){ //ciclo por cada filtro existente
+            /*$.each(filtrosSelect, function(attr, array){ //ciclo por cada filtro existente
               var options = _.reduce(array, function(memo, a){ return memo + '<option value="'+a+'">'+a+'</option>'; }, '');
               document.getElementById('filtro_'+ attr).innerHTML = options;
               $('#filtro_'+attr).select2();
-            });
+            });*/
 
             //Cargamos los valores de filtros para los botones
             var boton = '';
@@ -124,7 +124,7 @@ angular.module('yvyUiApp')
 
           var values = filtered;
           _.each(values, function(d){
-            var label = sprintf('<label class="btn btn-sm btn-primary filtro-ancho"><input type="checkbox">%s</label>', d);
+            var label = sprintf('<label class="btn btn-sm btn-success filtro-ancho "><input type="checkbox"><strong>%s</strong></label>', d);
             $(selector).append(label);
           });
 
@@ -147,12 +147,9 @@ angular.module('yvyUiApp')
         }
 
         function initControl(){
-          var panelSlider = L.control.sidebar('left-panel-link', {
-            position: 'left',
-            autoPan: false
-          });
 
-          $rootScope.$broadcast('filter-ready', panelSlider);
+
+          //$rootScope.$broadcast('filter-ready', panelSlider);
         }
 
 

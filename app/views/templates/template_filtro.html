@@ -1,10 +1,51 @@
-<div id="left-panel-link" class="left-panel panel panel-default hidden" role="navigation">
+<!--<div id="left-panel-link" class="left-panel panel panel-default hidden" role="navigation">
   <div id="mapa-filtro">
+
+    <h2 style="font-size: 25px !important; text-align: left; margin: 10px;
+    padding-top: 40px;"> Buscar </h2>
+
+    <button class="btn btn-success btn-xs" type="button" style="float: left; margin: 10px;">Limpiar filtro</button>
     <br>
-    <h6>Animal</h6>
-    <select multiple id="filtro_nombre_animal" name="filtro_nombre_animal" class="filtro-ancho" ng-model="local.filtro_nombre_animal" ng-change="updateFiltro()"></select><br/>
-    <h6>Zona</h6>
-    <div id="filtro_nombre_zona" class="btn-group-vertical" data-toggle="buttons"></div>
+    <br>
+
+    <div class="box-container" style="text-align: left;">
+
+      <h6>Especie</h6>
+      <select multiple id="filtro_nombre_animal" name="filtro_nombre_animal" class="filtro-ancho" ng-model="local.filtro_nombre_animal" ng-change="updateFiltro()"></select><br/>
+
+      <h6>Tipo Animal</h6>
+      <select multiple id="filtro_tipo_animal" name="filtro_tipo_animal" class="filtro-ancho" ng-model="local.filtro_tipo_animal" ng-change="updateFiltro()"></select><br/>
+
+      <h6>Zona</h6>
+      <div id="filtro_nombre_zona" class="btn-group-vertical" data-toggle="buttons"></div>
+    </div>
+    <br>
   </div>
   <br/>
+</div>-->
+<div class="buscador">
+  <div class="buscador-container clearfix">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Escribí el animal que buscas" />
+            <i class="glyphicon glyphicon-search form-control-feedback"></i>
+        </div>
+    </div>
+  <div class="buscador-container clearfix" style="margin-top: 100px;">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Escribí el tipo que buscas" />
+            <i class="glyphicon glyphicon-search form-control-feedback"></i>
+        </div>
+    </div>
+
+    <div class="buscador-container-vacio clearfix" style="margin-top: 200px;">
+      <div class="btn-group-vertical" role="group" aria-label="Seleccioná una opción" style="float: left;">
+        <button type="button" class="btn btn-default">Baños</button>
+        <button type="button" class="btn btn-default">Fuentes de agua</button>
+        <button type="button" class="btn btn-default">Asientos</button>
+        <button type="button" class="btn btn-default">Estacionamientos</button>
+        <button type="button" class="btn btn-default">Guarda parque</button>
+        <button type="button" class="btn btn-default">Museo de historia</button>
+        <button type="button" class="btn btn-default">Áreas de descanso</button>
+      </div>
+    </div>
 </div>

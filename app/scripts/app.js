@@ -31,6 +31,11 @@ angular
         controller: 'AboutCtrl',
         activetab: 'about'
       })
+      .when('/datos', {
+        templateUrl: 'views/data_table.html',
+        controller: 'AboutCtrl',
+        activetab: 'datos'
+      })
       .when('/mapa', {
         templateUrl: 'views/mapa_establecimientos.html',
         controller: 'MapaEstablecimientosCtrl',

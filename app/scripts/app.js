@@ -23,19 +23,21 @@ angular
         $routeProvider
             .when('/', {
                 templateUrl: 'views/main.html',
-                controller: 'MainCtrl'
+                controller: 'MainCtrl',
+                activetab: 'home'
             })
             .when('/mapa', {
                 templateUrl: 'views/mapa_establecimientos.html',
-                controller: 'MapaEstablecimientosCtrl'
-            })
-            .when('/geojson', {
-                templateUrl: 'data/zoo-as.geojson'
+                controller: 'MapaEstablecimientosCtrl',
+                activetab: 'mapa'
             })
             .when('/datos', {
               templateUrl: 'views/data_table.html',
               controller: 'DataTableCtrl',
               activetab: 'datos'
+            })
+            .when('/geojson', {
+                templateUrl: 'data/zoo-as.geojson'
             })
             .otherwise({
                 redirectTo: '/'

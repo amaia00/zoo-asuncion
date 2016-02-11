@@ -182,8 +182,8 @@
 
 /* Propiedades del boton */
 .btn-tag {
-  cursor: point  font-weight: bold;
-er;
+  cursor: pointer;
+  font-weight: bold;
   border-radius: 5px;
   text-decoration: none;
   font-size: 22px;

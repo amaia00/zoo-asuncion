@@ -33,9 +33,35 @@
 
     <div class="container">
 
+      <!-- nav -->
+    <nav class="navbar navbar-inverse success" ng-controller="ActiveTabCtrl">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-leaf white"></span>&nbsp; Zoológico de Asunción</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
+          <ul class="nav navbar-nav">
+            <li ng-class="{active: route.current.activetab == 'home'}">
+              <a href="/#/"><span class="glyphicon glyphicon-home"></span>&nbsp; Home</a>
+            </li>
+            <li ng-class="{active: route.current.activetab == 'mapa'}">
+              <a href="/#/mapa"><span class="glyphicon glyphicon-globe"></span>&nbsp; Mapa</a>
+            </li>
+            <li ng-class="{active: route.current.activetab == 'datos'}">
+              <a href="/#/datos"><span class="glyphicon glyphicon-list-alt"></span>&nbsp; Datos</a>
+            </li>
+            <li ng-class="{active: route.current.activetab == 'about'}">
+              <a href="/#/about-us"><span class="glyphicon glyphicon-user">&nbsp; About us</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
     <div ng-view="" style="height: 95%;"></div>
-    </div>
+
+    </div> <!--end container-->
+
     <div class="footer">
       <p>2016 - Footer </a></p>
     </div>
@@ -82,6 +108,7 @@
 
     <!-- build:js({app, .tmp}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/tabs.js"></script>
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/factories/establecimientos.js"></script>
     <script src="scripts/controllers/mapa_establecimientos.js"></script>

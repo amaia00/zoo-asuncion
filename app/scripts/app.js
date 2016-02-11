@@ -32,6 +32,11 @@ angular
             .when('/geojson', {
                 templateUrl: 'data/zoo-as.geojson'
             })
+            .when('/datos', {
+              templateUrl: 'views/data_table.html',
+              controller: 'DataTableCtrl',
+              activetab: 'datos'
+            })
             .otherwise({
                 redirectTo: '/'
             });

@@ -301,7 +301,7 @@ angular.module('yvyUiApp')
       },
 
 			getGeojson: function(){
-        return $http.get('data/zoo-as.geojson').then(function(response){
+        return $http.get('data/file.geojson').then(function(response){
           return response.data
         });
 		}

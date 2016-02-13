@@ -201,7 +201,7 @@ angular.module('yvyUiApp')
           detailSidebar.on('hide', function(){
             if(scope.distancia > 0) { setDistancia(); }
             MECONF.fixedMarker = null;
-            removePolygons();
+            //removePolygons();
           });
 
           detailSidebar.on('hidden', function(){
@@ -252,8 +252,183 @@ angular.module('yvyUiApp')
           var geojson_data = mapaEstablecimientoFactory.getGeojson();
 
           geojson_data.then(function(features){
-            L.geoJson(features).addTo(map);
+            L.geoJson(features, {pointToLayer: function(feature, latlng){
+              //console.log(feature);
+              return L.marker(latlng, {icon: get_custom_marker(feature) });
+            }, style: function(feature) {
+              return get_polygon_color(feature);
+            }, onEachFeature: onEachFeature,
+          filter: function (feature, layer){
+            //console.log(feature.properties['natural']);
+            return feature.properties['natural'] != 'tree';
+          } }).addTo(map);
+
           });
+
+
+
+          function onEachFeature(feature, layer){
+            layer.on({
+                click: whenClicked
+            });
+          }
+
+          function whenClicked(e){
+            console.log(e.target.feature.properties);
+          }
+
+          function get_polygon_color(feature){
+
+            switch (feature.properties['amenity']) {
+                case 'parking': return {
+                  color: "#ff0000",
+                  fillColor: "#ff0000",
+                  weight: 2,
+                  opacity: 1,
+                  fillOpacity: 0.3,
+                  dashArray: '3',
+                };
+
+                break;
+
+                case 'toilets':   return {
+                  color: "#0B3B0B",
+                  fillOpacity: 0.3,
+                  fillColor: "#0B3B0B",
+                  weight: 5,
+                  opacity: 1,
+                  dashArray: '3',
+                };
+                break;
+
+                case 'water_point':  return {
+                  color: "#1C86C6",
+                  fillOpacity: 0.3,
+                  fillColor: "#1C86C6",
+                  weight: 3,
+                  opacity: 1,
+                  dashArray: '3',
+                };
+
+                default:
+                  switch (feature.properties['tourism']) {
+                    case 'attraction':
+                      return {
+                        color: "#fff",
+                        fillOpacity: 0.5,
+                        fillColor: "#6f4e37",
+                        weight: 1,
+                        opacity: 1,
+                        dashArray: '3',
+                      };
+
+                    case 'zoo':
+                        return {
+                          color: "#079109",
+                          fillOpacity: 0.3,
+                          fillColor: "#2B890A",
+                          weight: 1,
+                          opacity: 1,
+                          dashArray: '3',
+                        };
+
+                    default:
+                    switch (feature.properties['natural']) {
+                      case 'wood':
+                      case 'grassland':
+                      case 'tree':
+                      case 'tree_row':
+                      return {
+                        color: "#079109",
+                        fillOpacity: 0.3,
+                        fillColor: "#2B890A",
+                        weight: 1,
+                        opacity: 1,
+                        dashArray: '3',
+                      };
+
+                        break;
+
+                        case 'water':
+                        return {
+                          color: "#1C86C6",
+                          fillOpacity: 0.3,
+                          fillColor: "#1C86C6",
+                          weight: 3,
+                          opacity: 1,
+                          dashArray: '3',
+                        };
+
+                      default:
+                      switch (feature.properties['landuse']) {
+                        case 'grass':
+                        case 'meadow':
+                        return {
+                          color: "#079109",
+                          fillOpacity: 0.3,
+                          fillColor: "#2B890A",
+                          weight: 1,
+                          opacity: 1,
+                          dashArray: '3',
+                        };
+
+                        default:
+                          switch(feature.properties['building']){
+                            case 'school':
+                            case 'yes':
+                            case 'public':
+                              return {
+                                color: "#900C3F",
+                                fillOpacity: 0.3,
+                                fillColor: "#900C3F",
+                                weight: 1,
+                                opacity: 1,
+                                dashArray: '3',
+                              };
+
+                              default:
+                                switch(feature.properties['highway']){
+                                  case 'rest_area':
+                                  return {
+                                    color: "#F09109",
+                                    fillOpacity: 0.3,
+                                    fillColor: "#F09109",
+                                    weight: 1,
+                                    opacity: 1,
+                                    dashArray: '3',
+                                  };
+                                  case 'path':
+                                  case 'footway':
+                                  case 'road':
+                                  return {
+                                    color: "#ABA8A4",
+                                    weight: 3,
+                                    opacity: 1,
+                                    dashArray: '3',
+                                  };
+
+                                  case 'service':
+                                  case 'unclassified':
+                                  return {
+                                    color: "#8C8A87",
+                                    weight: 5,
+                                    opacity: 1,
+                                    dashArray: '3',
+                                  };
+
+                                  default:
+                                  null;
+                                }
+                          }
+                      }
+                      //null;
+
+                    }
+
+                  }
+
+            }
+          }
 
           var baseMaps = {
               'Calles OpenStreetMap': osm,
@@ -290,6 +465,33 @@ angular.module('yvyUiApp')
           if(feature.properties.cantidad > 99) clazz = 'm3';
           if(feature.properties.cantidad > 999) clazz = 'm4';
           return clazz;
+        }
+
+        var get_custom_marker = function(feature){
+          var iconMarker;
+
+          if (feature.properties['amenity'] === 'bench'){
+             iconMarker= L.AwesomeMarkers.icon({
+                icon: 'screenshot',
+                markerColor: 'pink',
+                prefix: 'glyphicon'
+            });
+
+          }else if (feature.properties['amenity'] == 'waste_basket'){
+            iconMarker =  L.AwesomeMarkers.icon({
+                icon: 'trash',
+                markerColor: 'black',
+                prefix: 'glyphicon'
+            });
+          }else{
+            iconMarker =  L.AwesomeMarkers.icon({
+                icon: 'home',
+                markerColor: 'orange',
+                prefix: 'glyphicon'
+            });
+          }
+
+          return iconMarker;
         }
 
         var draw_markers = function(){
@@ -382,7 +584,7 @@ angular.module('yvyUiApp')
           if(redrawClusters){
             e = getClusterByZoom(levelZoom);
           }else{
-            e = MECONF.geoJsonLayer.getGeoJSON();
+            e = mapaEstablecimientoFactory.getGeojson();
           }
 
           var afterFit = function(){ drawVisibleMarkers(e)};
@@ -402,7 +604,7 @@ angular.module('yvyUiApp')
             $timeout(function(){
               if(scope.distancia > 0){
                 setDistancia();
-                removePolygons(L.Polyline);
+                //removePolygons(L.Polyline);
               }
             });
 
@@ -415,7 +617,7 @@ angular.module('yvyUiApp')
         };
 
         var drawVisibleMarkers = function(e){
-          removePolygons(L.Circle);
+          //removePolygons(L.Circle);
           var bounds = map.getBounds();
           e.features = _.filter(MECONF.allFeatures, function(punto){
             var latLon = [punto.geometry.coordinates[1], punto.geometry.coordinates[0]];
@@ -453,7 +655,7 @@ angular.module('yvyUiApp')
           }else{
             e = _.clone(MECONF.establecimientosVisibles);
           }
-          MECONF.allFeatures = e.features;
+          MECONF.allFeatures = mapaEstablecimientoFactory.getGeojson().features;
           return e;
         }
 
@@ -543,7 +745,7 @@ angular.module('yvyUiApp')
             //Si ya hay un establecimiento seleccionado y esta habilitado el control de distancia
             if(MECONF.fixedMarker && MECONF.controlDistancia.getValue() && detailSidebar.isVisible()){
               scope.$apply(function(){
-                removePolygons(L.Polyline);
+                //removePolygons(L.Polyline);
                 latLonA = MECONF.fixedMarker.getLatLng();
                 latLonB = target.getLatLng();
                 var polyline = L.polyline([latLonA, latLonB]).addTo(map);
@@ -551,7 +753,7 @@ angular.module('yvyUiApp')
               });
             }else{
               if(scope.distancia > 0) { setDistancia(); }
-              removePolygons();
+              //removePolygons();
               MECONF.fixedMarker = target;
               //Cambiamos el radio respecto al zoom hasta que el usuario haga un cambio sobre el control
               if(!MECONF.controlCobertura.lastChangeByUser()){
@@ -569,7 +771,7 @@ angular.module('yvyUiApp')
               });
             }
           }else{
-            removePolygons();
+            //removePolygons();
             targetZoom = _.find(_.values(MECONF.nivelesZoom), function(z){ return z > levelZoom; });
             targetChild = mapaEstablecimientoFactory.getClusterElementChild(target.feature, MECONF.establecimientosVisibles);
             latLon = [targetChild.geometry.coordinates[1], targetChild.geometry.coordinates[0]];

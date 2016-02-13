@@ -64,11 +64,11 @@ angular.module('yvyUiApp')
           map.addControl(sidebar);
           detailSidebar = sidebar;
 
-          //detailSidebar.on('hide', function(){
-          //  if(scope.distancia > 0) { setDistancia(); }
-          //  MECONF.fixedMarker = null;
-          //  removePolygons();
-          //});
+          detailSidebar.on('hide', function(){
+            if(scope.distancia > 0) { setDistancia(); }
+            MECONF.fixedMarker = null;
+            //removePolygons();
+          });
 
           detailSidebar.on('hidden', function(){
             MECONF.infoBox.update(MECONF.establecimientosVisibles.features);
@@ -116,30 +116,226 @@ angular.module('yvyUiApp')
 
           var geojson_data = mapaEstablecimientoFactory.getGeojson();
 
+          /**
+           * Temporal function just for concept probe
+           * @param feature
+           * @returns {*}
+             */
+          var get_custom_marker = function(feature){
+            var iconMarker;
+
+            if (feature.properties['amenity'] === 'bench'){
+              iconMarker= L.AwesomeMarkers.icon({
+                icon: 'screenshot',
+                markerColor: 'pink',
+                prefix: 'glyphicon'
+              });
+
+            }else if (feature.properties['amenity'] == 'waste_basket'){
+              iconMarker =  L.AwesomeMarkers.icon({
+                icon: 'trash',
+                markerColor: 'black',
+                prefix: 'glyphicon'
+              });
+            }else{
+              iconMarker =  L.AwesomeMarkers.icon({
+                icon: 'home',
+                markerColor: 'orange',
+                prefix: 'glyphicon'
+              });
+            }
+
+            return iconMarker;
+          }
+
           /* Agrega los puntos al mapa */
           geojson_data.then(function(features){
-              L.geoJson(features).addTo(map);
+            L.geoJson(features, {pointToLayer: function(feature, latlng){
+              //console.log(feature);
+              return L.marker(latlng, {icon: get_custom_marker(feature) });
+            }, style: function(feature) {
+              return get_polygon_color(feature);
+            }, onEachFeature: onEachFeature,
+          filter: function (feature, layer){
+            //console.log(feature.properties['natural']);
+            return feature.properties['natural'] != 'tree';
+          } }).addTo(map);
               MECONF.geoJsonFeatures = features;
+
           });
+
+
+
+          function onEachFeature(feature, layer){
+            layer.on({
+                click: whenClicked
+            });
+          }
+
+          function whenClicked(e){
+            console.log(e.target.feature.properties);
+          }
+
+          function get_polygon_color(feature){
+
+            switch (feature.properties['amenity']) {
+                case 'parking': return {
+                  color: "#ff0000",
+                  fillColor: "#ff0000",
+                  weight: 2,
+                  opacity: 1,
+                  fillOpacity: 0.3,
+                  dashArray: '3',
+                };
+
+                break;
+
+                case 'toilets':   return {
+                  color: "#0B3B0B",
+                  fillOpacity: 0.3,
+                  fillColor: "#0B3B0B",
+                  weight: 5,
+                  opacity: 1,
+                  dashArray: '3',
+                };
+                break;
+
+                case 'water_point':  return {
+                  color: "#1C86C6",
+                  fillOpacity: 0.3,
+                  fillColor: "#1C86C6",
+                  weight: 3,
+                  opacity: 1,
+                  dashArray: '3',
+                };
+
+                default:
+                  switch (feature.properties['tourism']) {
+                    case 'attraction':
+                      return {
+                        color: "#fff",
+                        fillOpacity: 0.5,
+                        fillColor: "#6f4e37",
+                        weight: 1,
+                        opacity: 1,
+                        dashArray: '3',
+                      };
+
+                    case 'zoo':
+                        return {
+                          color: "#079109",
+                          fillOpacity: 0.3,
+                          fillColor: "#2B890A",
+                          weight: 1,
+                          opacity: 1,
+                          dashArray: '3',
+                        };
+
+                    default:
+                    switch (feature.properties['natural']) {
+                      case 'wood':
+                      case 'grassland':
+                      case 'tree':
+                      case 'tree_row':
+                      return {
+                        color: "#079109",
+                        fillOpacity: 0.3,
+                        fillColor: "#2B890A",
+                        weight: 1,
+                        opacity: 1,
+                        dashArray: '3',
+                      };
+
+                        break;
+
+                        case 'water':
+                        return {
+                          color: "#1C86C6",
+                          fillOpacity: 0.3,
+                          fillColor: "#1C86C6",
+                          weight: 3,
+                          opacity: 1,
+                          dashArray: '3',
+                        };
+
+                      default:
+                      switch (feature.properties['landuse']) {
+                        case 'grass':
+                        case 'meadow':
+                        return {
+                          color: "#079109",
+                          fillOpacity: 0.3,
+                          fillColor: "#2B890A",
+                          weight: 1,
+                          opacity: 1,
+                          dashArray: '3',
+                        };
+
+                        default:
+                          switch(feature.properties['building']){
+                            case 'school':
+                            case 'yes':
+                            case 'public':
+                              return {
+                                color: "#900C3F",
+                                fillOpacity: 0.3,
+                                fillColor: "#900C3F",
+                                weight: 1,
+                                opacity: 1,
+                                dashArray: '3',
+                              };
+
+                              default:
+                                switch(feature.properties['highway']){
+                                  case 'rest_area':
+                                  return {
+                                    color: "#F09109",
+                                    fillOpacity: 0.3,
+                                    fillColor: "#F09109",
+                                    weight: 1,
+                                    opacity: 1,
+                                    dashArray: '3',
+                                  };
+                                  case 'path':
+                                  case 'footway':
+                                  case 'road':
+                                  return {
+                                    color: "#ABA8A4",
+                                    weight: 3,
+                                    opacity: 1,
+                                    dashArray: '3',
+                                  };
+
+                                  case 'service':
+                                  case 'unclassified':
+                                  return {
+                                    color: "#8C8A87",
+                                    weight: 5,
+                                    opacity: 1,
+                                    dashArray: '3',
+                                  };
+
+                                  default:
+                                  null;
+                                }
+                          }
+                      }
+                      //null;
+
+                    }
+
+                  }
+
+            }
+          }
 
           var baseMaps = {
               'Calles OpenStreetMap': osm,
-              'Terreno': mapbox,
               'Satelital': mapQuestOPen,
           };
 
-          L.polyline([[0, 0], ]).addTo(map);
           map.addLayer(osm);
 
-
-
-          /*Controles que después tenemos que quitar*/
-          L.control.layers(baseMaps).addTo(map);
-          MECONF.controlCobertura = L.control.cobertura('control-cobertura');
-          map.addControl(MECONF.controlCobertura);
-          MECONF.controlDistancia = L.control.distancia('control-distancia');
-          map.addControl(MECONF.controlDistancia);
-          $('[data-toggle="tooltip"]').tooltip();
           /* ************************************ */
 
           //si el doble click ocurre en un control
@@ -184,23 +380,12 @@ angular.module('yvyUiApp')
             marker.setIcon(icon);
           });
 
-          MECONF.infoBox = draw_info_box();
-          MECONF.infoBox.addTo(map);
 
           MECONF.geoJsonLayer = geoJson; //Sobre esta variable se aplican los filtros
 
           MECONF.geoJsonLayer.on('click', onMarkerClick);
 
           MECONF.geoJsonLayer.on('mouseover', function(e){
-          });
-
-          MECONF.geoJsonLayer.on('mouseout', function(e){
-            var properties = e.layer.feature.properties;
-            if(properties['periodo'] || properties.cantidad === 1){
-              //nothing to do
-            }else{
-              MECONF.infoBox.update();
-            }
           });
 
           MECONF.geoJsonLayer.addTo(map);
@@ -252,7 +437,7 @@ angular.module('yvyUiApp')
             $timeout(function(){
               if(scope.distancia > 0){
                 setDistancia();
-                removePolygons(L.Polyline);
+                //removePolygons(L.Polyline);
               }
             });
 
@@ -265,7 +450,6 @@ angular.module('yvyUiApp')
         };
 
         var drawVisibleMarkers = function(e){
-          removePolygons(L.Circle);
           var bounds = map.getBounds();
           e.features = _.filter(MECONF.allFeatures, function(punto){
             var latLon = [punto.geometry.coordinates[1], punto.geometry.coordinates[0]];
@@ -273,216 +457,15 @@ angular.module('yvyUiApp')
           });
 
           MECONF.geoJsonfeatures = e;
-            /*
-          if(MECONF.controlCobertura.generalCoverageEnabled()){
-            _.each(e.features, function(f) {
-              if(f.properties.cantidad === 1 || f.properties.codigo_establecimiento){
-                var latLon = [f.geometry.coordinates[1], f.geometry.coordinates[0]];
-                L.circle(latLon, MECONF.controlCobertura.getValue(), {
-                    color: 'blue',
-                    fillOpacity: 0.5
-                }).addTo(map);
-              }
-            });
-          }else{
-            drawDetailCoverage();
-          }
-          */
 
           //MECONF.currentZoom = levelZoom;
         }
 
-        /* Funcion que filtra el cluster a mostrar, ya sea por Departamentos/Distritos/BarrioLocalidad */
-        var filtrar_cluster = function(tipo){
-          var clusterPais;
-          if(tipo === 'pais'){
-            clusterPais = mapaEstablecimientoFactory.getCentroPais();
-            clusterPais.features[0].properties.cantidad = MECONF.establecimientosVisibles.features.length;
-            return clusterPais;
-          }
-
-          var tipo_cluster = 'cluster_'+tipo;
-          //Reemplazar por llamada al service
-          //build a cluster index
-          var clusterIndex = mapaEstablecimientoFactory.getClusterIndex(tipo_cluster);
-          var coordinatesIndex = {};
-
-          var e =
-          { 'type' : 'FeatureCollection',
-            'features' : []
-          };
-
-          var keyAccesor;
-          switch(tipo){
-            case 'departamento':
-              keyAccesor = function(f){ return _.deburr(f.properties['nombre_departamento']); };
-              break;
-            case 'distrito':
-              keyAccesor = function(f){ return _.deburr(f.properties['nombre_departamento']) + _.deburr(f.properties['nombre_distrito']); };
-              break;
-            case 'barrio_localidad':
-              keyAccesor = function(f){ return _.deburr(f.properties['nombre_departamento']) + _.deburr(f.properties['nombre_distrito']) + _.deburr(f.properties['nombre_barrio_localidad']); };
-              break;
-          }
-
-          _.each(MECONF.establecimientosVisibles.features, function(f){
-            var key = keyAccesor(f);
-            if(clusterIndex[key]){
-              clusterIndex[key].properties.cantidad++;
-              coordinatesIndex[key] = f.geometry.coordinates;
-              //clusterIndex[key].properties.targetChild = f;
-            }
-          });
-
-          /* Si el cluster es de un elemento, se desplaza su centro:
-             Del centroide del poligono al punto del unico establecimiento del cluster
-          */
-          _.forOwn(clusterIndex, function(c, k){
-            if(c.properties.cantidad === 1){
-              c.geometry.coordinates = coordinatesIndex[k];
-            }
-          });
-
-          e.features = _(clusterIndex).values().filter(function(f){ return f.properties.cantidad; }).value();
-          return e;
-
-        };
-
-        function removePolygons(clazz){
-          clazz =  clazz || L.Path;
-          map.eachLayer(function(layer) {
-            if(layer instanceof clazz) map.removeLayer(layer);
-          });
-        }
-
-        function drawDetailCoverage() {
-          var latLon;
-          if(MECONF.fixedMarker){
-            L.circle(MECONF.fixedMarker.getLatLng(), MECONF.controlCobertura.getValue(), {
-              color: 'blue',
-              fillOpacity: 0.5
-            }).addTo(map);
-          }
-        }
 
         /* Handler para el click de un marker */
         function onMarkerClick(t) {
-          var target = t.layer;
+          //TODO: Something need to be done here when a marker is clicked
 
-          var feature = (target.feature.properties.cantidad === 1) ? mapaEstablecimientoFactory.getClusterElementChild(target.feature, MECONF.establecimientosVisibles) : target.feature;
-
-          var levelZoom = map.getZoom();
-          var latLon, targetChild, targetZoom;
-          var icon, color, lineGeoJSON, latLonA, latLonB;
-          if(feature.properties['periodo']){ //Verificamos que se trata de un establecimiento
-            //Si ya hay un establecimiento seleccionado y esta habilitado el control de distancia
-            if(MECONF.fixedMarker && MECONF.controlDistancia.getValue() && detailSidebar.isVisible()){
-              scope.$apply(function(){
-                removePolygons(L.Polyline);
-                latLonA = MECONF.fixedMarker.getLatLng();
-                latLonB = target.getLatLng();
-                var polyline = L.polyline([latLonA, latLonB]).addTo(map);
-                scope.distancia = Math.round(latLonA.distanceTo(latLonB));
-              });
-            }else{
-              if(scope.distancia > 0) { setDistancia(); }
-              removePolygons();
-              MECONF.fixedMarker = target;
-              //Cambiamos el radio respecto al zoom hasta que el usuario haga un cambio sobre el control
-              if(!MECONF.controlCobertura.lastChangeByUser()){
-                MECONF.controlCobertura.setValue(Math.pow(19 - levelZoom, 2) * 10);
-              }
-              if(detailSidebar.isVisible()){
-                map.panTo(MECONF.fixedMarker.getLatLng());
-              }
-              drawDetailCoverage();
-              $timeout(function(){
-                scope.$apply(function(){
-                  scope.detalle = feature.properties;
-                });
-                MECONF.infoBox.update(feature);
-              });
-            }
-          }else{
-            removePolygons();
-            targetZoom = _.find(_.values(MECONF.nivelesZoom), function(z){ return z > levelZoom; });
-            targetChild = mapaEstablecimientoFactory.getClusterElementChild(target.feature, MECONF.establecimientosVisibles);
-            latLon = [targetChild.geometry.coordinates[1], targetChild.geometry.coordinates[0]];
-            map.setView(latLon, targetZoom); //funcion que centra el mapa sobre el marker
-          }
-
-        }
-
-        /* Funcion que dibuja el resumen de los establecimientos */
-        function draw_info_box() {
-          var info = L.control();
-
-          info.onAdd = function (map) {
-              this._div = L.DomUtil.create('div', 'info-box'); // create a div with a class "info"
-              this.update();
-              return this._div;
-          };
-
-          // method that we will use to update the control based on feature properties passed
-          info.update = function (f) {
-              var msg = this._div.innerHTML;
-              if (f instanceof Array) { //Cuando se hace hover sobre un Marker de Cluster
-                msg = get_summary_message(f);
-              } else if (f) {  //Cuando es hace el popup de un Marker
-                msg = sprintf('Mostrando un establecimiento<br/>del departamento %s,<br/>del distrito %s,<br/>de la localidad %s',
-                          f.properties['nombre_departamento'], f.properties['nombre_distrito'], f.properties['nombre_barrio_localidad']);
-              }else if(typeof f === 'undefined'){ //Primera vez
-                if(MECONF.establecimientosVisibles){
-                  msg = get_summary_message(MECONF.establecimientosVisibles.features);
-                }else{
-                  //nothing to do
-                }
-              }
-
-              this._div.innerHTML = msg;
-          };
-
-          return info;
-        }
-
-        function get_summary_message(features) {
-          var cantidadDepartamentos = _(features)
-              .map(function (f) {
-                  return f.properties['nombre_departamento'];
-              })
-              .filter(function(e){ return e !== 'ASUNCION';})
-              .unique().value().length;
-
-          var cantidadDistritos = _(features)
-              .map(function (f) {
-                  return f.properties['nombre_distrito'];
-              })
-              .unique().value().length;
-
-          var cantidadBarriosLocalidaes = _(features)
-              .map(function (f) {
-                  return f.properties['nombre_barrio_localidad'];
-              })
-              .unique().value().length;
-
-          if (cantidadDepartamentos === 0) {
-              cantidadDepartamentos += 1;
-          }
-
-          var cantidadEstablecimientos = _(features)
-            .map(function (f){
-              return f.properties['codigo_establecimiento'];
-            })
-            .unique().value().length;
-
-          var establecimientosLabel = cantidadEstablecimientos > 1 ? 'establecimientos' : 'establecimiento';
-          var departamentoLabel = cantidadDepartamentos > 1 ? 'departamentos' : 'departamento';
-          var distritoLabel = cantidadDistritos > 1 ? 'distritos' : 'distrito';
-          var barrioLocalidadLabel = cantidadBarriosLocalidaes > 1 ? 'localidades' : 'localidad';
-
-          return sprintf('%s %s de %s %s, %s %s y %s %s',
-                  cantidadEstablecimientos, establecimientosLabel, cantidadDepartamentos, departamentoLabel,
-                  cantidadDistritos, distritoLabel, cantidadBarriosLocalidaes, barrioLocalidadLabel);
         }
 
         //Funcion que inicializa el Spinner (Loading)

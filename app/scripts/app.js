@@ -23,15 +23,23 @@ angular
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        activetab: 'home'
       })
       .when('/about-us', {
         templateUrl: 'views/about-us.html',
-        controller: 'AboutCtrl'
+        controller: 'AboutCtrl',
+        activetab: 'about'
+      })
+      .when('/datos', {
+        templateUrl: 'views/data_table.html',
+        controller: 'AboutCtrl',
+        activetab: 'datos'
       })
       .when('/mapa', {
         templateUrl: 'views/mapa_establecimientos.html',
-        controller: 'MapaEstablecimientosCtrl'
+        controller: 'MapaEstablecimientosCtrl',
+        activetab: 'mapa'
       })
       .when('/geojson', {
 	      templateUrl:'data/zoo-as.geojson'

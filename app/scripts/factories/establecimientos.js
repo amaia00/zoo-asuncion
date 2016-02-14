@@ -9,12 +9,12 @@
  */
 angular.module('yvyUiApp')
     .factory('mapaEstablecimientoFactory', function ($http, $q) {
-        //var urlBase = 'http://localhost:3000';
-        var urlBase = 'http://datos.mec.gov.py'; // Esto es solo temporal, estamos usando el backend solo para probar
 
         return {
 
-            /* retorna el punto donde estará centrado el mapa */
+            /**
+             *  retorna el punto donde estará centrado el mapa
+             */
             getCentroZoo: function () {
                 return {
                     'type': 'FeatureCollection',
@@ -31,10 +31,14 @@ angular.module('yvyUiApp')
                 }
             },
 
-			getGeojson: function(){
-        return $http.get('data/file.geojson').then(function(response){
-          return response.data
-        });
-		}
-	};
-});
+            /**
+             * Función que realiza la llamada AJAX y retorna el dataset en formato GeoJson
+             * @returns Un objeto JSON con todos los features a ser pintados en el mapa
+             */
+            getGeojson: function () {
+                return $http.get('data/zoo-as.geojson').then(function (response) {
+                    return response.data
+                });
+            }
+        };
+    });

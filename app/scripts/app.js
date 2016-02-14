@@ -36,9 +36,6 @@ angular
               controller: 'DataTableCtrl',
               activetab: 'datos'
             })
-            .when('/geojson', {
-                templateUrl: 'data/zoo-as.geojson'
-            })
             .otherwise({
                 redirectTo: '/'
             });

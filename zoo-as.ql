@@ -6,20 +6,21 @@
 	THIS IS NOT A GEOJSON format, just a specifica overpass json format, you need 
 	to convert this in geojson from the overpass site or with a specific tool
 	// TODO: try to convert this automatically
+	This query does not retrieve the zoo area properly. just the inner nodes and 
+	ways
+*/
+/*
+	http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide
 */
 [out:json];
 area
-  ["name"="Jardín Botánico y Zoológico de Asunción"]->.a;          // Redirect result to ".a"
-out body qt;
+  ["name"="Jardín Botánico y Zoológico de Asunción"]->.a;
 (
-  area
-  	(area.a)
-  	["name"="Jardín Botánico y Zoológico de Asunción"];
   node
-  	(area.a);
+        (area.a);
   way
-  	(area.a);
+        (area.a);
 );
 out body qt;
 >;
-out skel qt;
+out body qt;

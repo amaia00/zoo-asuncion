@@ -253,14 +253,20 @@ angular.module('yvyUiApp')
 
           geojson_data.then(function(features){
             L.geoJson(features, {pointToLayer: function(feature, latlng){
-              //console.log(feature);
               return L.marker(latlng, {icon: get_custom_marker(feature) });
             }, style: function(feature) {
-              return get_polygon_color(feature);
+              return get_feature_format(feature);
             }, onEachFeature: onEachFeature,
           filter: function (feature, layer){
             //console.log(feature.properties['natural']);
-            return feature.properties['natural'] != 'tree';
+
+            if (feature.properties['natural'] == 'tree'){
+              return false;
+            }else if (feature.properties['waterway'] == 'drystream') {
+              return false;
+            }
+
+            return true;
           } }).addTo(map);
 
           });
@@ -277,157 +283,129 @@ angular.module('yvyUiApp')
             console.log(e.target.feature.properties);
           }
 
-          function get_polygon_color(feature){
+          /**
+          * Función que retorna un objeto con las propiedades del formato que
+          * debe tener según el tipo de feature
+          * @param feature objeto del geojson
+          * @return JSON object {color, fillColor, weight}
+          */
+          function get_format(feature){
+            //console.log(feature);
+            if (typeof feature.properties['amenity'] != 'undefined'){
+              switch (feature.properties['amenity']) {
+                case 'parking':
+                  return PARKING_FORMAT;
+                  break;
+                case 'toilets':
+                  return TOILETS_FORMAT;
+                  break;
+                case 'water_point':
+                  return WATER_POINT_FORMAT;
+                  break;
+                default:
+                  break;
+              }
+            }else if (typeof feature.properties['tourism'] != 'undefined') {
+              switch (feature.properties['tourism']) {
+                case 'attraction':
+                  return CAGES_FORMAT;
+                  break;
+                case 'zoo':
+                  return ZOO_FORMAT;
+                default:
+                  break;
+              }
+            }else if (typeof feature.properties['natural'] != 'undefined') {
+              switch (feature.properties['natural']) {
+                case 'wood':
+                case 'grassland':
+                case 'tree':
+                case 'tree_row':
+                  return  GREEN_AREA_FORMAT;
+                  break;
 
-            switch (feature.properties['amenity']) {
-                case 'parking': return {
-                  color: "#ff0000",
-                  fillColor: "#ff0000",
-                  weight: 2,
-                  opacity: 1,
-                  fillOpacity: 0.3,
-                  dashArray: '3',
-                };
-
-                break;
-
-                case 'toilets':   return {
-                  color: "#0B3B0B",
-                  fillOpacity: 0.3,
-                  fillColor: "#0B3B0B",
-                  weight: 5,
-                  opacity: 1,
-                  dashArray: '3',
-                };
-                break;
-
-                case 'water_point':  return {
-                  color: "#1C86C6",
-                  fillOpacity: 0.3,
-                  fillColor: "#1C86C6",
-                  weight: 3,
-                  opacity: 1,
-                  dashArray: '3',
-                };
+                case 'water':
+                  return WATER_POINT_FORMAT;
+                  break;
+                default:
+                  break;
+              }
+            }else if (typeof feature.properties['landuse'] != 'undefined') {
+              switch (feature.properties['landuse']) {
+                case 'grass':
+                case 'meadow':
+                return GREEN_AREA_FORMAT;
 
                 default:
-                  switch (feature.properties['tourism']) {
-                    case 'attraction':
-                      return {
-                        color: "#fff",
-                        fillOpacity: 0.5,
-                        fillColor: "#6f4e37",
-                        weight: 1,
-                        opacity: 1,
-                        dashArray: '3',
-                      };
+                  break;
+              }
+            }else if (typeof feature.properties['building'] != 'undefined') {
+              switch (feature.properties['building']) {
+                case 'school':
+                case 'yes':
+                case 'public':
+                  return BUILDING_FORMAT;
 
-                    case 'zoo':
-                        return {
-                          color: "#079109",
-                          fillOpacity: 0.3,
-                          fillColor: "#2B890A",
-                          weight: 1,
-                          opacity: 1,
-                          dashArray: '3',
-                        };
+                  break;
+                default:
+                  break;
+              }
+            }else if (typeof feature.properties['highway'] != 'undefined') {
+              switch (feature.properties['highway']) {
+                case 'rest_area':
+                  return REST_AREA_FORMAT;
+                  break;
 
-                    default:
-                    switch (feature.properties['natural']) {
-                      case 'wood':
-                      case 'grassland':
-                      case 'tree':
-                      case 'tree_row':
-                      return {
-                        color: "#079109",
-                        fillOpacity: 0.3,
-                        fillColor: "#2B890A",
-                        weight: 1,
-                        opacity: 1,
-                        dashArray: '3',
-                      };
+                case 'path':
+                case 'footway':
+                case 'road':
+                  return SECONDARY_ROAD_FORMAT;
+                  break;
 
-                        break;
-
-                        case 'water':
-                        return {
-                          color: "#1C86C6",
-                          fillOpacity: 0.3,
-                          fillColor: "#1C86C6",
-                          weight: 3,
-                          opacity: 1,
-                          dashArray: '3',
-                        };
-
-                      default:
-                      switch (feature.properties['landuse']) {
-                        case 'grass':
-                        case 'meadow':
-                        return {
-                          color: "#079109",
-                          fillOpacity: 0.3,
-                          fillColor: "#2B890A",
-                          weight: 1,
-                          opacity: 1,
-                          dashArray: '3',
-                        };
-
-                        default:
-                          switch(feature.properties['building']){
-                            case 'school':
-                            case 'yes':
-                            case 'public':
-                              return {
-                                color: "#900C3F",
-                                fillOpacity: 0.3,
-                                fillColor: "#900C3F",
-                                weight: 1,
-                                opacity: 1,
-                                dashArray: '3',
-                              };
-
-                              default:
-                                switch(feature.properties['highway']){
-                                  case 'rest_area':
-                                  return {
-                                    color: "#F09109",
-                                    fillOpacity: 0.3,
-                                    fillColor: "#F09109",
-                                    weight: 1,
-                                    opacity: 1,
-                                    dashArray: '3',
-                                  };
-                                  case 'path':
-                                  case 'footway':
-                                  case 'road':
-                                  return {
-                                    color: "#ABA8A4",
-                                    weight: 3,
-                                    opacity: 1,
-                                    dashArray: '3',
-                                  };
-
-                                  case 'service':
-                                  case 'unclassified':
-                                  return {
-                                    color: "#8C8A87",
-                                    weight: 5,
-                                    opacity: 1,
-                                    dashArray: '3',
-                                  };
-
-                                  default:
-                                  null;
-                                }
-                          }
-                      }
-                      //null;
-
-                    }
-
-                  }
-
+                case 'service':
+                case 'unclassified':
+                  return PRIMARY_ROAD_FORMAT;
+                default:
+                  break;
+              }
+            } else if (typeof feature.properties['barrier'] != 'undefined') {
+              return WALL_FORMAT;
+            }else if (typeof feature.properties['attraction'] != 'undefined') {
+                switch (feature.properties['highway']) {
+                  case 'animal':
+                    return BUILDING_FORMAT;
+                    break;
+                  default:
+                    break;
+              }
             }
+
+          return {
+                color: '#ff0000',
+                fillColor: '#ff0000',
+                weight: 4
+              }
+
+          }
+
+
+          /**
+          * Función que retorna el formato del feature
+          * @param feature del geojson
+          * @return objeto para el formato del feature
+          */
+          function get_feature_format(feature){
+            var format = get_format(feature);
+
+            //console.log(format);
+            return {
+              color: format.color,
+              fillColor: format.fillColor,
+              weight: format.weight,
+              fillOpacity: FILL_DEFAULT_OPACITY,
+              dashArray: '3',
+              opacity: 1
+            };
           }
 
           var baseMaps = {
@@ -438,7 +416,6 @@ angular.module('yvyUiApp')
 
           L.polyline([[0, 0], ]).addTo(map);
           map.addLayer(osm);
-
 
 
           /*Controles que después tenemos que quitar*/
@@ -467,31 +444,39 @@ angular.module('yvyUiApp')
           return clazz;
         }
 
-        var get_custom_marker = function(feature){
-          var iconMarker;
+        /**
+        * retorna el ícono personalizado dependiendo del feature
+        * @param feature el punto del archivo geojson
+        * @return AwesomeMarkers el ícono que se debe asignar al feature
+        */
+        function get_custom_marker(feature){
+          var CLASS_ICON = 'glyphicon';
+          var icon;
+          var markerColor;
 
-          if (feature.properties['amenity'] === 'bench'){
-             iconMarker= L.AwesomeMarkers.icon({
-                icon: 'screenshot',
-                markerColor: 'pink',
-                prefix: 'glyphicon'
-            });
+          switch (feature.properties['amenity']) {
+            case 'bench':
+              markerColor = 'pink';
+              icon = 'screenshot';
+              break;
 
-          }else if (feature.properties['amenity'] == 'waste_basket'){
-            iconMarker =  L.AwesomeMarkers.icon({
-                icon: 'trash',
-                markerColor: 'black',
-                prefix: 'glyphicon'
-            });
-          }else{
-            iconMarker =  L.AwesomeMarkers.icon({
-                icon: 'home',
-                markerColor: 'orange',
-                prefix: 'glyphicon'
-            });
+            case 'waste_basket':
+              markerColor = 'black';
+              icon = 'trash';
+              break;
+
+            default:
+              markerColor = 'orange';
+              icon = 'home';
+              break;
           }
 
-          return iconMarker;
+          return L.AwesomeMarkers.icon({
+             icon: icon,
+             markerColor: markerColor,
+             prefix: CLASS_ICON
+         });
+
         }
 
         var draw_markers = function(){
@@ -591,7 +576,7 @@ angular.module('yvyUiApp')
           var outerBounds;
 
           if(redrawClusters){
-            MECONF.infoBox.update(MECONF.establecimientosVisibles.features);
+            /*lMECONF.infoBox.update(MECONF.establecimientosVisibles.features);
             if(filtros){
               MECONF.geoJsonLayer.setGeoJSON(e);
               outerBounds = MECONF.geoJsonLayer.getBounds();
@@ -599,7 +584,7 @@ angular.module('yvyUiApp')
               levelZoom = map.getZoom();
             }else{
               drawVisibleMarkers(e);
-            }
+            }*/
 
             $timeout(function(){
               if(scope.distancia > 0){
@@ -887,6 +872,23 @@ angular.module('yvyUiApp')
         };
 
         /******************************** INICIO **************************************/
+
+        /*
+        * Variables para definición de formatos
+        */
+
+        var CAGES_FORMAT = {color: '#fff', fillColor: '#6f4e37', weight: 3};
+        var REST_AREA_FORMAT = {color: '#f09109', fillColor: '#f09109', weight: 3};
+        var PARKING_FORMAT = {color: '#ff0000', fillColor: '#ff0000', weight: 3};
+        var TOILETS_FORMAT = {color: '#0b3b0b', fillColor: '#0b3b0b', weight: 3};
+        var WATER_POINT_FORMAT = {color: '#1c86c6', fillColor: '#1c86c6', weight: 3};
+        var ZOO_FORMAT = {color: '#079109', fillColor: '#079109', weight: 5};
+        var GREEN_AREA_FORMAT = {color: '#079109', fillColor: '#079109', weight: 3};
+        var BUILDING_FORMAT = {color: '#900c3f', fillColor: '#900c3f', weight: 3};
+        var SECONDARY_ROAD_FORMAT = {color: '#aba8a4', fillColor: '#aba8a4', weight: 3};
+        var PRIMARY_ROAD_FORMAT = {color: '#8c8a87', fillColor: '#8c8a87', weight: 5};
+        var WALL_FORMAT = {color: '#61210b', fillColor: '#61210b', weight: 3};
+        var FILL_DEFAULT_OPACITY = '0.3';
 
         //Detalles de la configuracion del mapa
         var MECONF = MECONF || {};

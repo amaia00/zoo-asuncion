@@ -85,18 +85,9 @@ angular.module('yvyUiApp')
           });
         });
 
-        /* Funcion que reduce la lista de establecimientos acorde al filtro seleccionado */
-        var filtrar_establecimientos = function(establecimientos, filtro){
-          var e =
-          { 'type' : 'FeatureCollection',
-            'features' : []
-          };
-          $.each(establecimientos.features, function(index, value){
-            if (filtro.eval(value.properties[filtro.atributo])){
-              e.features.push(value);
-            }
-          });
-          return e;
+        var tilesLoaded = function(){
+          MECONF.tilesLoaded = true;
+          finishedLoading();
         };
 
         /* Funcion que inicializa el mapa */
@@ -105,6 +96,7 @@ angular.module('yvyUiApp')
           startLoading();
 
           var layers = MECONF.LAYERS();
+
           var osm = layers.OPEN_STREET_MAPS.on('load', tilesLoaded);
           var mapQuestOPen  = layers.MAPQUEST.on('load', tilesLoaded);
 
@@ -335,6 +327,7 @@ angular.module('yvyUiApp')
           };
 
           map.addLayer(osm);
+          L.control.layers(baseMaps).addTo(map);
 
           /* ************************************ */
 
@@ -419,31 +412,7 @@ angular.module('yvyUiApp')
           //e = MECONF.geoJsonLayer.getGeoJSON();
           e = MECONF.geoJsonFeatures;
 
-          var afterFit = function(){ drawVisibleMarkers(e)};
-          var outerBounds;
-
-          if(redrawClusters){
-            MECONF.infoBox.update(MECONF.establecimientosVisibles.features);
-            if(filtros){
-              //MECONF.geoJsonLayer.setGeoJSON(e);
-              MECONF.geoJsonLayer.geoJsonFeatures;
-              outerBounds = MECONF.geoJsonLayer.getBounds();
-              fitMap(map, outerBounds, maxZoom, afterFit);
-              levelZoom = map.getZoom();
-            }else{
-              drawVisibleMarkers(e);
-            }
-
-            $timeout(function(){
-              if(scope.distancia > 0){
-                setDistancia();
-                //removePolygons(L.Polyline);
-              }
-            });
-
-          }else{
-            drawVisibleMarkers(e);
-          }
+          drawVisibleMarkers(e);
 
           MECONF.currentZoom = levelZoom;
           return {map: map};
@@ -485,21 +454,11 @@ angular.module('yvyUiApp')
         //Funcion que finaliza el Spinner (Loading)
         var finishedLoading = function() {
 
-          if(tilesLoaded && establecimientos){
+          if(MECONF.tilesLoaded && establecimientos){
             $(".spinner").remove();
             MECONF.tilesLoaded = false;
           }
 
-        };
-
-        var tilesLoaded = function(){
-          MECONF.tilesLoaded = true;
-          finishedLoading();
-        }
-
-        //Configuracion del Gmaps listener
-        var setup_gmaps = function() {
-          google.maps.event.addListenerOnce(this._google, 'tilesloaded', tilesLoaded);
         };
 
         /******************************** INICIO **************************************/

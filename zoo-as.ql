@@ -12,10 +12,13 @@ area
   ["name"="Jardín Botánico y Zoológico de Asunción"]->.a;          // Redirect result to ".a"
 out body qt;
 (
-  node // all nodes in .a
-    (area.a);
-  way // all ways in .a
-   (area.a);
+  area
+  	(area.a)
+  	["name"="Jardín Botánico y Zoológico de Asunción"];
+  node
+  	(area.a);
+  way
+  	(area.a);
 );
 out body qt;
 >;

@@ -16,10 +16,7 @@ angular.module('yvyUiApp')
 
             /* retorna el punto donde estará centrado el mapa */
             getCentroZoo: function () {
-                return {
-                    'type': 'FeatureCollection',
-                    'features': [
-                        {
+                return   {
                             'geometry': {
                                 'coordinates': [-25.25032, -57.57210],
                                 'type': "Point"
@@ -27,8 +24,6 @@ angular.module('yvyUiApp')
                             'properties': {},
                             'type': 'Feature'
                         }
-                    ]
-                }
             },
 
 			getGeojson: function(){

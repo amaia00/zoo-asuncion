@@ -39,6 +39,12 @@ angular.module('yvyUiApp')
                 return $http.get('data/zoo-as.geojson').then(function (response) {
                     return response.data
                 });
+            },
+
+            getAnimales: function () {
+                return $http.get('data/animales.json').then(function (response) {
+                    return response.data
+                });
             }
         };
     });

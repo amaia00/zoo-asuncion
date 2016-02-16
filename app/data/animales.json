@@ -1,0 +1,23 @@
+[
+  {
+    "nombre": "Elefante",
+    "geojson_id": "way/393300039",
+    "categoria": "mamífero",
+    "descripcion": "Animal Grande (Elefante)",
+    "origen": "Africa"
+  },
+  {
+    "nombre": "León",
+    "geojson_id": "way/393301913",
+    "categoria": "mamífero",
+    "descripcion": "Animal Grande (Otro)",
+    "origen": "Africa"
+  },
+  {
+    "nombre": "Hipopotamo",
+    "geojson_id": "way/393069672",
+    "categoria": "mamífero",
+    "descripcion": "Animal Grande",
+    "origen": "Africa"
+  }
+]

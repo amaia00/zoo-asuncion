@@ -39,6 +39,9 @@ angular
             .when('/geojson', {
                 templateUrl: 'data/zoo-as.geojson'
             })
+            .when('/about-us', {
+                templateUrl: 'views/about-us.html'
+            })
             .otherwise({
                 redirectTo: '/'
             });

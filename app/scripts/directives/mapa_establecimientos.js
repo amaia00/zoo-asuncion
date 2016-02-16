@@ -19,9 +19,6 @@ angular.module('yvyUiApp')
     },
     templateUrl: 'views/templates/template_mapa.html',
     link: function postLink(scope, element, attrs) {
-      var detailSidebar, filterSidebar, filterFlag = false;
-
-
       var tilesLoaded = function(){
         MECONF.tilesLoaded = true;
         finishedLoading();
@@ -51,18 +48,18 @@ angular.module('yvyUiApp')
           L.geoJson(features, {pointToLayer: function(feature, latlng){
             return L.marker(latlng, {icon: get_custom_marker(feature) });
           }, style: function(feature) {
+
             return get_feature_format(feature);
           }, onEachFeature: onEachFeature,
           filter: function (feature, layer){
-            //console.log(feature.properties['natural']);
-
-            //MECONF.layer = layer;
 
             if (feature.properties['natural'] == 'tree'){
               return false;
             }else if (feature.properties['waterway'] == 'drystream') {
               return false;
             }else if (feature.properties['tourism'] == 'camp_site') {
+              return false;
+            }else if (feature.id.indexOf('node/') != -1 ) {
               return false;
             }
 
@@ -80,17 +77,31 @@ angular.module('yvyUiApp')
         */
         function onEachFeature(feature, layer){
           layer.on({
-            click: whenClicked
+            click: showInfo
           });
 
+          if (get_permitted_polygon(feature)){
+            var title = '<b>' + feature.properties['name'] + '</b>';
+            var img = '';
+
+            if (typeof feature.properties['website'] != 'undefined'){
+              img = '<img data-src="holder.js/100%x200" alt="'+ feature.properties['name'] + '" src="' + feature.properties['website'] + '" data-holder-rendered="true" style="height: 300px; width: 100%; display: block;">'
+            }
+
+            layer.bindPopup(img + title);
+          }
         }
 
-
-
-
-        function whenClicked(e){
+        /**
+        *
+        */
+        function showInfo(e){
           console.log(e.target.feature.properties);
-          console.log(map.getZoom());
+
+          //console.log(e);
+          /*if (get_permitted_polygon(e)){
+            console.log(e);
+          }*/
         }
 
         var baseMaps = {
@@ -205,9 +216,13 @@ angular.module('yvyUiApp')
       * @return boolean pertenece al polígono solicituado
       */
       function get_permitted_polygon(feature){
-        //console.log(feature);
-        return feature.geometry['type'] == 'Polygon' &&
-        feature.properties['tourism'] == 'attraction';
+        try{
+          return feature.geometry['type'] == 'Polygon' &&
+          feature.properties['tourism'] == 'attraction';
+        }catch(e){
+          return false;
+        }
+
       }
 
       /**
@@ -252,7 +267,6 @@ angular.module('yvyUiApp')
       * @return JSON object {color, fillColor, weight}
       */
       function get_format(feature){
-        //console.log(feature);
         if (typeof feature.properties['amenity'] != 'undefined'){
           switch (feature.properties['amenity']) {
             case 'parking':

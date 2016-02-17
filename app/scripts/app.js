@@ -40,7 +40,8 @@ angular
                 templateUrl: 'data/zoo-as.geojson'
             })
             .when('/about-us', {
-                templateUrl: 'views/about-us.html'
+                templateUrl: 'views/about-us.html',
+                activetab: 'about-us'
             })
             .otherwise({
                 redirectTo: '/'

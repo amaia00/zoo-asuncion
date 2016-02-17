@@ -14,7 +14,8 @@ angular.module('yvyUiApp')
       data:'=',
       filtro:'=',
       detalle:'=',
-      periodo: '='
+      periodo: '=',
+      modal: '='
     },
     templateUrl: 'views/templates/template_mapa.html',
     link: function postLink(scope, element, attrs) {
@@ -80,31 +81,29 @@ angular.module('yvyUiApp')
           });
         }
 
+        var animalesList = [];
+        mapaEstablecimientoFactory.getAnimales().then(function(animales) {
+          animalesList = animales;
+        });
+
         /**
         * Despierta el modal y coloca la información del animal
         * @param e feature del geojson
         */
         function showInfo(e){
-          console.log(e.target.feature.properties);
-          var animalesList = [];
-          mapaEstablecimientoFactory.getAnimales().then(function(animales) {
-            animalesList = animales;
+
+          var foundAnimal = false;
+
+          angular.forEach(animalesList, function(animal) {
+            if(e.target.feature.id === animal.geojson_id) {
+              scope.modal = animal;
+              foundAnimal = true;
+            }
           });
+          scope.$apply();
 
-          function whenClicked(e) {
-            var foundAnimal = false;
-
-            angular.forEach(animalesList, function(animal) {
-              if(e.target.feature.id === animal.geojson_id) {
-                scope.modal = animal;
-                foundAnimal = true;
-              }
-            });
-            scope.$apply();
-
-            if(foundAnimal)
-              $('#descripcion-modal').modal('show');
-          }
+          if(foundAnimal)
+            $('#descripcion-modal').modal('show');
         }
 
         var baseMaps = {

@@ -5,7 +5,6 @@
 * @description
 * # mapaLeaflet
 */
-
 angular.module('yvyUiApp')
 .directive('mapaEstablecimientos', function (mapaEstablecimientoFactory, $timeout) {
   return {
@@ -79,29 +78,33 @@ angular.module('yvyUiApp')
           layer.on({
             click: showInfo
           });
-
-          if (get_permitted_polygon(feature)){
-            var title = '<b>' + feature.properties['name'] + '</b>';
-            var img = '';
-
-            if (typeof feature.properties['website'] != 'undefined'){
-              img = '<img data-src="holder.js/100%x200" alt="'+ feature.properties['name'] + '" src="' + feature.properties['website'] + '" data-holder-rendered="true" style="height: 300px; width: 100%; display: block;">'
-            }
-
-            layer.bindPopup(img + title);
-          }
         }
 
         /**
-        *
+        * Despierta el modal y coloca la información del animal
+        * @param e feature del geojson
         */
         function showInfo(e){
           console.log(e.target.feature.properties);
+          var animalesList = [];
+          mapaEstablecimientoFactory.getAnimales().then(function(animales) {
+            animalesList = animales;
+          });
 
-          //console.log(e);
-          /*if (get_permitted_polygon(e)){
-            console.log(e);
-          }*/
+          function whenClicked(e) {
+            var foundAnimal = false;
+
+            angular.forEach(animalesList, function(animal) {
+              if(e.target.feature.id === animal.geojson_id) {
+                scope.modal = animal;
+                foundAnimal = true;
+              }
+            });
+            scope.$apply();
+
+            if(foundAnimal)
+              $('#descripcion-modal').modal('show');
+          }
         }
 
         var baseMaps = {
@@ -113,7 +116,6 @@ angular.module('yvyUiApp')
 
         L.control.layers(baseMaps).addTo(map);
 
-        /* ************************************ */
 
         return map;
       };

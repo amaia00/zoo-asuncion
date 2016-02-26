@@ -1,0 +1,50 @@
+<div class="referencia">
+    <div class="referencia-container hidden-xs clearfix">
+        <label>Referencias</label>
+        <ul>
+            <span class="badge" style="background-color: #6f4e37"> </span> Jaulas de animales<br/>
+            <span class="badge" style="background-color: #f09109"> </span> Áreas de descanso<br/>
+            <span class="badge" style="background-color: #ff0000"> </span> Estacionamientos<br/>
+            <span class="badge" style="background-color: #aba8a4"> </span> Senderos peatonales<br/>
+            <span class="badge" style="background-color: #8c8a87"> </span> Rutas internas<br/>
+            <span class="badge" style="background-color: #1c86c6"> </span> Fuente de agua<br/>
+            <span class="badge" style="background-color: #900c3f"> </span> Edificios<br/>
+            <span class="badge" style="background-color: #0b3b0b"> </span> Baños<br/>
+        </ul>
+    </div>
+</div>
+
+<div ng-controller="FilterCtrl">
+    <!--
+    <div class="marco-left">
+        <div class="marco-container clearfix" style="width: 270px;">
+            <label> Ingresa el nombre del animal:</label>
+            <input ng-keyup="updateMap()" class="form-control" type="text" ng-model="nombre_animal"/>
+        </div>
+    </div>
+    -->
+
+    <div class="marco-left" style="top: 270px;">
+        <div class="btn-group-vertical" role="group" aria-label="Seleccioná una opción" style="float: left;">
+            <button ng-click="togglePOIFilter('banho')" type="button" class="btn btn-blank">Baños</button>
+            <button ng-click="togglePOIFilter('agua')" type="button" class="btn btn-blank">Fuentes de agua</button>
+            <button ng-click="togglePOIFilter('asiento')" type="button" class="btn btn-blank">Asientos</button>
+            <button ng-click="togglePOIFilter('estacionamiento')" type="button" class="btn btn-blank">Estacionamientos
+            </button>
+            <button ng-click="togglePOIFilter('guardaparque')" type="button" class="btn btn-blank">Guarda parque
+            </button>
+            <button ng-click="togglePOIFilter('museo')" type="button" class="btn btn-blank">Museo de historia</button>
+            <button ng-click="togglePOIFilter('areadescanso')" type="button" class="btn btn-blank">Áreas de descanso
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<mapa-zoo-asu
+        periodo="periodo"
+        data="data"
+        filtro="filtro"
+        detalle="detalle"
+        modal="modal">
+</mapa-zoo-asu>

@@ -9,41 +9,37 @@
  * Main module of the application.
  */
 angular
-    .module('yvyUiApp', [
-        'ngAnimate',
-        'ngAria',
-        'ngCookies',
-        'ngMessages',
-        'ngResource',
-        'ngRoute',
-        'ngSanitize',
-        'ngTouch'
-    ])
-    .config(function ($routeProvider) {
-        $routeProvider
-            .when('/', {
-                templateUrl: 'views/main.html',
-                controller: 'MainCtrl',
-                activetab: 'home'
-            })
-            .when('/mapa', {
-                templateUrl: 'views/mapa_establecimientos.html',
-                controller: 'MapaEstablecimientosCtrl',
-                activetab: 'mapa'
-            })
-            .when('/datos', {
-              templateUrl: 'views/data_table.html',
-              controller: 'DataTableCtrl',
-              activetab: 'datos'
-            })
-            .when('/geojson', {
-                templateUrl: 'data/zoo-as.geojson'
-            })
-            .when('/about-us', {
-                templateUrl: 'views/about-us.html',
-                activetab: 'about-us'
-            })
-            .otherwise({
-                redirectTo: '/'
-            });
-    });
+  .module('yvyUiApp', [
+    'ngAnimate',
+    'ngAria',
+    'ngCookies',
+    'ngMessages',
+    'ngResource',
+    'ngRoute',
+    'ngSanitize',
+    'ngTouch',
+    'angularUtils.directives.dirPagination'
+  ])
+  .config(function ($routeProvider) {
+    $routeProvider
+      .when('/mapa', {
+        templateUrl: 'views/mapa_zoo_asu.html',
+        activetab: 'mapa'
+      })
+      .when('/datos', {
+        templateUrl: 'views/data_list.html',
+        controller: 'DataTableCtrl',
+        activetab: 'datos'
+      })
+      .when('/about-us', {
+        templateUrl: 'views/about-us.html',
+        activetab: 'about'
+      })
+      .when('/', {
+        templateUrl: 'views/main.html',
+        activetab: 'home'
+      })
+      .otherwise({
+        redirectTo: '/mapa'
+      });
+  });

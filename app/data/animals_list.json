@@ -1,0 +1,167 @@
+[
+  {
+    "nombre": "Avestruz",
+    "descripcion": "Es un ave grande que no vuela, sino que es corredora, proveniente de África y Medio Oriente.",
+    "nombre_cientifico": "Struthio camelus"
+  },
+  {
+    "nombre": "Buitres",
+    "descripcion": "Ave rapaz diurna de hasta 110 cm de altura, de color pardo o negro, con la cabeza y el cuello generalmente sin plumas.",
+    "nombre_cientifico": "Torgos tracheliotus."
+  },
+  {
+    "nombre": "Cabras",
+    "descripcion": "Son animales que viven en manadas y están adaptados a comer arbustos y matas correosas propias de medios secos y/o montañosos.",
+    "nombre_cientifico": "Capra"
+  },
+  {
+    "nombre": "Carancho",
+    "descripcion": "Es un ave rapaz que mide entre 55 y 60 cm de largo y es carroñera.",
+    "nombre_cientifico": "Caracara plancus"
+  },
+  {
+    "nombre": "Chimpancés",
+    "descripcion": "Es un género de primates homínidos. Son originarios de África, y generalmente su dieta se basa en frutas, sin embargo en algunas ocasiones cazan cerdos e inclusive chimpancés de otras manadas.",
+    "nombre_cientifico": "Pan"
+  },
+  {
+    "nombre": "Coati",
+    "descripcion": "Son pequeños mamíferos omnívoros americanos, generalmente mansos. En guaraní, la palabra coatí significa nariz alargada, de coa: largo, y ti: nariz.",
+    "nombre_cientifico": "Nasua"
+  },
+  {
+    "nombre": "Elefante Asiático",
+    "descripcion": "Es un mamífero, el mayor del continente asiático. Está considerado como una especie en peligro de extinción.",
+    "nombre_cientifico": "Elephas maximus"
+  },
+  {
+    "nombre": "Gallinas",
+    "descripcion": "Son aves domésticas generalmente terrestres . Son omnívoros e insectívoro. Son altamente susceptibles a parásitos.",
+    "nombre_cientifico": "Gallus gallus domesticus"
+  },
+  {
+    "nombre": "Gato montés",
+    "descripcion": "Es un pequeño felino rayado nativo de la zona occidental central de América del Sur. Se cree que es un cazador nocturno, que caza principalmente pequeños mamíferos y aves.",
+    "nombre_cientifico": "Leopardus colocolo"
+  },
+  {
+    "nombre": "Hipopótamo",
+    "descripcion": "Es un gran mamífero fundamentalmente herbívoro que habita en el África subsahariana. Es el tercer animal terrestre más grande por su peso.",
+    "nombre_cientifico": "Hippopotamus amphibius"
+  },
+  {
+    "nombre": "Hurón",
+    "descripcion": "Es un animal carnívoro, que en general pasa de 14 a 18 horas durmiendo, son domésticados y cazan conjejos para su supervivencia.",
+    "nombre_cientifico": "Mustela putorius furo"
+  },
+  {
+    "nombre": "Jaguares",
+    "descripcion": "Es un carnívoro félido fundamentalmente solitario, su estado de conservación es casi amenazado y su número está en declive. Es un cazador solitario y oportunista.",
+    "nombre_cientifico": "Panthera onca"
+  },
+  {
+    "nombre": "Lechuzón",
+    "descripcion": "El lechuzón orejudo es una especie de búho de tamaño mediano con largas plumas que parecen pelos en su cabeza",
+    "nombre_cientifico": "Asio clamator"
+  },
+  {
+    "nombre": "León",
+    "descripcion": "Es un mamífero carnívoro de la familia de los félidos y una de las 5 especies del género Panthera. Están en peligro de extinción. Cazan en manada y  se alimentan normalmente de mamíferos de entre 190 y 550 kg.",
+    "nombre_cientifico": "Panthera leo"
+  },
+  {
+    "nombre": "Loros",
+    "descripcion": "Son aves con una movilidad leve. Muchas especies pueden imitar la voz humana y otros sonidos, no poseen cuerdas vocales. Son domesticables.",
+    "nombre_cientifico": "Psittacoidea"
+  },
+  {
+    "nombre": "Mono",
+    "descripcion": "Son primates en su mayoría hervíboros, de tamaño relativamente pequeño. Son muy activos, y se vuelven agresivos con facilidad.",
+    "nombre_cientifico": ""
+  },
+  {
+    "nombre": "Ocelote",
+    "descripcion": "El ocelote es una especie de felino de mediano tamaño, se encuentra ampliamente distribuido en América, donde se diferencia en numerosas subespecies",
+    "nombre_cientifico": "Leopardus pardalis"
+  },
+  {
+    "nombre": "Papagayo rojo y azul",
+    "descripcion": "Los guacamayos o guacamayas son un género de aves de la familia de los loros.",
+    "nombre_cientifico": "Ara"
+  },
+  {
+    "nombre": "Patos",
+    "descripcion": "Pato es el nombre común para ciertas aves de la familia Anatidae. Cuenta con unas membranas[Tejido flexible y resistente] en las patas que lo ayudan a tener un mejor remo en el agua.",
+    "nombre_cientifico": ""
+  },
+  {
+    "nombre": "Pavo real",
+    "descripcion": "Es un ave originario del sur de Asia. La alimentación es fundamentalmente omnívora, compuesta principalmente por semillas, frutos, bayas, plantas, verduras, insectos, ranas y pequeños reptiles.",
+    "nombre_cientifico": "Pavo cristatus"
+  },
+  {
+    "nombre": "Pecarí de Barba blanca",
+    "descripcion": "Es un animal diurno y vive en inmensas manadas, de 50 a 300 individuos. Es omnívoro aunque prefieren consumir frutos silvestres.",
+    "nombre_cientifico": "Tayassu pecari"
+  },
+  {
+    "nombre": "Pecarí de Collar",
+    "descripcion": "El pecarí de collar es una especie ampliamente dispersada desde la América tropical hasta subtropical, desde el sudoeste de Estados Unidos hasta el norte argentino en Sudamérica. Son generalmente mansos y aunque usualmente ignoran la presencia humana, podrían reaccionar si son amenazados, ",
+    "nombre_cientifico": "Pecari tajacu"
+  },
+  {
+    "nombre": "Puerco espín",
+    "descripcion": "Son mamíferos roedores , su nombre proviene de las características púas que que cubren su piel.",
+    "nombre_cientifico": ""
+  },
+  {
+    "nombre": "Pumas ",
+    "descripcion": "El puma es territorial y tiene una baja densidad de población es considerada una fiera peligrosa. Es un mamífero carnívoro salvaje terrestre.",
+    "nombre_cientifico": ""
+  },
+  {
+    "nombre": "Saria de patas rojas",
+    "descripcion": "Es una especie de ave predadora que es principalmente terrestre, su estado de conservación es de preocupación menor. Su canto tiene una calidad descrita como \"un cruce entre\" el ladrido de un perro joven y el cacareo de los pavos\".",
+    "nombre_cientifico": "Cariama cristata"
+  },
+  {
+    "nombre": "Tigres",
+    "descripcion": "Es un predador carnívoro y es la especie de félido más grande del mundo junto con el león pudiendo alcanzar ambos un tamaño comparable al de los felinos fósiles de mayor tamaño.",
+    "nombre_cientifico": "Panthera tigris"
+  },
+  {
+    "nombre": "Tortugua",
+    "descripcion": "Son reptiles que son caracterizados por tener un tronco ancho y corto, y un caparazón o envoltura que protege los órganos internos de su cuerpo. ",
+    "nombre_cientifico": "Testudines"
+  },
+  {
+    "nombre": "Tucan",
+    "descripcion": "Los tucanes son aves de plumas y pico de colores muy llamativos . Llegan a medir hasta 60 cm. Están en peligro de extinción por la destrucción de su habitat.",
+    "nombre_cientifico": "Ramphastidae"
+  },
+  {
+    "nombre": "Venado",
+    "descripcion": "Son mamíferos rumiantes, son por naturaleza herbíboros, generalmente se alimentan de hojas, ramas y brotes de plantas.",
+    "nombre_cientifico": "Cervidae"
+  },
+  {
+    "nombre": "Víboras",
+    "descripcion": "Son una subfamilia de serpientes. Son famosas por su veneno, probablemente el más potente entre los animales presentes en Europa.",
+    "nombre_cientifico": "Viperinae"
+  },
+  {
+    "nombre": "Yaguarundi",
+    "descripcion": "Es una especie de mamífero carnívoro de pelaje pardo a negro uniforme, cuyo estado de conservación se considera de preocupación menor.",
+    "nombre_cientifico": "Puma yagouaroundi"
+  },
+  {
+    "nombre": "Águila Coronada",
+    "descripcion": "Es un ave nativa de Sudamérica que se halla en peligro de extinción por la caza furtiva y destrucción de su habitat. Se alimenta de mamíferos, roedores y reptiles.",
+    "nombre_cientifico": "Buteogallus coronatus"
+  },
+  {
+    "nombre": "Ñacurutu",
+    "descripcion": "El gran búho cornudo, esta subespecie está extendida por Sudamérica, habita en zonas más abiertas que otras subespecies, por lo general habitan en zonas templadas de toda Sudamérica hasta Tierra del Fuego.",
+    "nombre_cientifico": "Bubo virginianus nacurutu"
+  }
+]

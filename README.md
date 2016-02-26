@@ -29,3 +29,9 @@ Creado utilizando el Angular generator de Yeoman: https://github.com/yeoman/gene
 ```bash
 bower install --save [dependencia]
 ```
+
+## Datos
+
+Fueron obtenidos mapeando el zoológico y subiendo los datos a [OpenStreetMaps](https://www.openstreetmap.org/#map=15/-25.2497/-57.5668)
+
+Se exportaron a [GeoJson](http://geojson.org/) utilizando [Overpass Turbo](http://overpass-turbo.eu/)

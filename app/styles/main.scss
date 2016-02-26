@@ -1,6 +1,168 @@
-$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
-// bower:scss
-// endbower
+.jssora05l, .jssora05r {
+  display: block;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background: url('../images/banner/a17.png') no-repeat;
+  overflow: hidden
+}
+
+.jssora05l {
+  background-position: -10px -40px
+}
+
+.jssora05r {
+  background-position: -70px -40px
+}
+
+.jssora05l:hover {
+  background-position: -130px -40px
+}
+
+.jssora05r:hover {
+  background-position: -190px -40px
+}
+
+.jssora05l.jssora05ldn {
+  background-position: -250px -40px
+}
+
+.jssora05r.jssora05rdn {
+  background-position: -310px -40px
+}
+
+.jssort01-99-66 .p {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 99px;
+  height: 66px
+}
+
+.jssort01-99-66 .t {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none
+}
+
+.jssort01-99-66 .w {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%
+}
+
+.jssort01-99-66 .c {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 95px;
+  height: 62px;
+  border: #000 2px solid;
+  box-sizing: content-box;
+  background: url('../images/banner/t01.png') -800px -800px no-repeat;
+  _background: none
+}
+
+.jssort01-99-66 .pav .c {
+  top: 2px;
+  _top: 0;
+  left: 2px;
+  _left: 0;
+  width: 95px;
+  height: 62px;
+  border: #000 0 solid;
+  _border: #fff 2px solid;
+  background-position: 50% 50%
+}
+
+.jssort01-99-66 .p:hover .c {
+  top: 0;
+  left: 0;
+  width: 97px;
+  height: 64px;
+  border: #fff 1px solid;
+  background-position: 50% 50%
+}
+
+.jssort01-99-66 .p.pdn .c {
+  background-position: 50% 50%;
+  width: 95px;
+  height: 62px;
+  border: #000 2px solid
+}
+
+* html .jssort01-99-66 .c, * html .jssort01-99-66 .pdn .c, * html .jssort01-99-66 .pav .c {
+  width: 99px;
+  height: 66px
+}
+
+.btn-blank {
+  background-image: -webkit-linear-gradient(#ffffff, #ffffff 60%, #f5f5f5);
+  background-image: -o-linear-gradient(#ffffff, #ffffff 60%, #f5f5f5);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), color-stop(60%, #ffffff), to(#f5f5f5));
+  background-image: linear-gradient(#ffffff, #ffffff 60%, #f5f5f5);
+  background-repeat: no-repeat;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff5f5f5', GradientType=0);
+  -webkit-filter: none;
+  filter: none;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.btn-blank:focus,
+.btn-blank:active:focus,
+.btn-blank.active:focus,
+.btn-blank.focus,
+.btn-blank:active.focus,
+.btn-blank.active.focus {
+  color: #2C3E50;
+  border-width: 2px;
+}
+
+.leaflet-label {
+  height: 0px !important;
+  width: 0px !important;
+}
+
+.referencia {
+  top: 150px;
+  right: 150px;
+  margin: 0 -210px 0 0;
+  position: absolute;
+  width: 290px;
+  z-index: 300;
+}
+
+.referencia .referencia-container {
+  background: url("https://www.itau.com.br/_arquivosestaticos/Itau/defaultTheme/img/bg-search-itens.gif") top left repeat-x #e5e4e3;
+  padding: 10px;
+  width: 220px;
+  text-align: center;
+  border: 1px solid #a8afba;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  margin-bottom: 10px;
+  position: absolute;
+  text-align: left;
+}
+
+.referencia .referencia-container ul {
+  margin: 0px;
+  padding: 15px;
+}
+
+.marco-left {
+  top: 150px;
+  left: 10px;
+  margin: 0 0 0 0 -210px;
+  position: absolute;
+  width: 290px;
+  z-index: 300;
+}
 
 .browsehappy {
   margin: 0.2em 0;
@@ -9,21 +171,11 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
   padding: 0.2em 0;
 }
 
-html, .container{
-  height: 95%;
-}
-
 /* Space out content a bit */
 body {
-  padding-top: 0px;
-  padding-bottom: 0px;
-  background-color: #f2f2f2;
-  height: 100%
-}
-
-.container{
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-top: 60px;
+  /* Uncomment the following if you want to have a footer */
+  /*padding-bottom: 20px;*/
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -36,74 +188,22 @@ body {
 
 /* Custom page header */
 .header {
-  height: 10%;
-  color: #eee;
-  position: relative;
-  z-index: 40;
-  padding: 0.5em;
-  box-shadow: 0 0.325em 0 rgba(0,0,0,0.1);
+  border-bottom: 1px solid #e5e5e5;
 
   /* Make the masthead heading the same height as the navigation */
   h3 {
     margin-top: 0;
     margin-bottom: 0;
     line-height: 40px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    margin-left: 15px;
-    color: white;
+    padding-bottom: 19px;
   }
-
-  a:hover{
-    background-color: #21759b !important;
-  }
-
-  .btn{
-    color: #fff;
-    text-transform: uppercase;
-    font-weight: 600;
-    border: 0;
-  }
-
 }
 
 /* Custom page footer */
 .footer {
-  background-color: #666;
-  font-size: 1em;
-  position: absolute;
-  top: auto;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 14;
-  padding: 0.25em;
-  box-shadow: 0 -0.325em rgba(0,0,0,0.1);
-  height: 5%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  color: #E3E3E3;
-  text-align: center;
-
-  a{
-    color: #ffb885;
-    font-weight: bold;
-    text-decoration: none;
-  }
-
-  a:hover {
-    color: white;
-  }
-
-  p{
-    margin: 5px 0 0 0;
-  }
-}
-
-.nav{
-  margin-top: 10px;
-  margin-right: 15px;
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
 }
 
 .container-narrow > hr {
@@ -131,12 +231,7 @@ body {
 }
 
 /* Responsive: Portrait tablets and up */
-@media screen {
-  .container {
-    /*max-width: 730px;*/
-    width: 100%;
-  }
-
+@media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */
   .header,
   .marketing,
@@ -144,17 +239,66 @@ body {
     padding-left: 0;
     padding-right: 0;
   }
-
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
   }
 }
 
-#map {
-  margin-top: -23px;
+/* ## Custom for zoo-asu ## */
+
+/* # For the data_list # */
+
+.filterable {
+  margin-top: 15px;
 }
 
-.navbar {
-  border-radius: 0px;
+.filterable .panel-heading .pull-right {
+  margin-top: -20px;
+}
+
+.filterable .filters input[disabled] {
+  background-color: transparent;
+  border: none;
+  cursor: auto;
+  box-shadow: none;
+  padding: 0;
+  height: auto;
+}
+
+.filterable .filters input[disabled]::-webkit-input-placeholder {
+  color: #333;
+}
+
+.filterable .filters input[disabled]::-moz-placeholder {
+  color: #333;
+}
+
+.filterable .filters input[disabled]:-ms-input-placeholder {
+  color: #333;
+}
+
+dir-pagination-controls .pagination {
+  margin-top: 0;
+}
+
+.animales-table .a {
+  cursor: pointer;
+}
+
+html, body, .angular-view, mapa-leaflet {
+  width: 100%;
+  height: 100%
+}
+
+#map {
+  height: 100%;
+}
+
+.img-centered {
+  margin: 0 auto;
 }

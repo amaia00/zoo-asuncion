@@ -1,20 +1,236 @@
 [
   {
-    "nombre": "Elefante",
+    "nombre": "Elefante Asiático",
     "geojson_id": "way/393300039",
-    "descripcion": "Animal Grande (Elefante)",
+    "descripcion": "",
     "imagen": "Elefante_Zoo_R.jpg"
   },
   {
     "nombre": "León",
     "geojson_id": "way/393301913",
-    "descripcion": "Animal Grande (Otro)",
+    "descripcion": "",
     "imagen": "Leon_R.jpg"
   },
   {
-    "nombre": "Hipopotamo",
+    "nombre": "Jaula de papagayo azul",
+    "geojson_id": "way/391970437",
+    "descripcion": "",
+    "imagen": "PapagayoAzul.JPG"
+  },
+  {
+    "nombre": "Jaula de víboras",
+    "geojson_id": "way/393067966",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula de herbívoros",
+    "geojson_id": "way/393068992",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula del hipopótamo",
     "geojson_id": "way/393069672",
-    "descripcion": "Animal Grande",
-    "imagen": "Hipotamo_R.jpg"
+    "descripcion": "",
+    "imagen": "Hipotamo1.JPG"
+  },
+  {
+    "nombre": "Jaula del gato montés",
+    "geojson_id": "way/393071199",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula del ocelote",
+    "geojson_id": "way/393072226",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula del Yaguarundi",
+    "geojson_id": "way/393072697",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula del karaja",
+    "geojson_id": "way/393076527",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula",
+    "geojson_id": "way/393076680",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula del puerco espín",
+    "geojson_id": "way/393076965",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula de ave",
+    "geojson_id": "way/393077140",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula de buitres",
+    "geojson_id": "way/393077366",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula de hurón",
+    "geojson_id": "way/393078206",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula vacìa",
+    "geojson_id": "way/393078729",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Venado y Avestrúz",
+    "geojson_id": "way/393088927",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula de Tigres, Pumas y Jaguares",
+    "geojson_id": "way/393091619",
+    "descripcion": "",
+    "imagen": "Puma_Zoo.jpg"
+  },
+  {
+    "nombre": "Mono",
+    "geojson_id": "way/393470224",
+    "descripcion": "",
+    "imagen": "Mono Capuccino.JPG"
+  },
+  {
+    "nombre": "Jaula de Tucan",
+    "geojson_id": "way/393472226",
+    "descripcion": "",
+    "imagen": "Tucan.jpg"
+  },
+  {
+    "nombre": "Jaula de chimpancés",
+    "geojson_id": "way/393913117",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula del hipopótamo asiático",
+    "geojson_id": "way/395000461",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula del coati",
+    "geojson_id": "way/395001968",
+    "descripcion": "",
+    "imagen": "Coati.jpg"
+  },
+  {
+    "nombre": "Pavos, Gallinas y Patos",
+    "geojson_id": "way/395004023",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula del venado",
+    "geojson_id": "way/395004125",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Pecarí de Collar",
+    "geojson_id": "way/395004165",
+    "descripcion": "",
+    "imagen": "PecariCollar_zoo.jpg"
+  },
+  {
+    "nombre": "Pecarí de Barba blanca",
+    "geojson_id": "way/395004516",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Kure ka'aguy",
+    "geojson_id": "way/395004592",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Saria de patas rojas",
+    "geojson_id": "way/395906184",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Búhos Pequeños",
+    "geojson_id": "way/395906463",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Tucán",
+    "geojson_id": "way/395906566",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Asio Clamator",
+    "geojson_id": "way/395906619",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Hurón",
+    "geojson_id": "way/395906717",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula",
+    "geojson_id": "way/395907257",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Ñacurutu con tortuguitas",
+    "geojson_id": "way/395907316",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula del papagayo rojo",
+    "geojson_id": "way/395908731",
+    "descripcion": "",
+    "imagen": ""
+  },
+  {
+    "nombre": "Jaula de loros",
+    "geojson_id": "way/395909110",
+    "descripcion": "",
+    "imagen": "Loros_zoo.jpg"
+  },
+  {
+    "nombre": "Carancho y Águila Coronada",
+    "geojson_id": "way/395909666",
+    "descripcion": "",
+    "imagen": "Carancho_zoo.jpg"
+  },
+  {
+    "nombre": "Avestrúz y Cabras",
+    "geojson_id": "way/393287779",
+    "descripcion": "",
+    "imagen": "Avestruz_Cabras_zoo.jpg"
   }
 ]

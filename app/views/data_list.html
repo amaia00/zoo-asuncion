@@ -1,0 +1,55 @@
+<div class="container">
+
+<h1>Lista de animales</h1>
+
+<div class="row">
+    <div class="panel panel-primary filterable">
+        <div class="panel-heading">
+            <h3 class="panel-title">Lista de animales</h3>
+            <!--<div class="pull-right">-->
+                <!--<button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>-->
+            <!--</div>-->
+        </div>
+        <table class="table animales-table">
+            <thead>
+                <tr class="headers">
+                    <th>
+                      <span ng-click="activateSortCol('nombre')">
+                        Nombre
+                      </span>
+                      <span ng-show="sortType == 'nombre' && !sortReverse" class="dropdown"><span class="caret"></span></span>
+                      <span ng-show="sortType == 'nombre' && sortReverse" class="dropup"><span class="caret"></span></span>
+                    </th>
+                    <th>
+                      <span ng-click="activateSortCol('descripcion')">
+                        Descripción
+                      </span>
+                      <span ng-show="sortType == 'descripcion' && !sortReverse" class="dropdown"><span class="caret"></span></span>
+                      <span ng-show="sortType == 'descripcion' && sortReverse" class="dropup"><span class="caret"></span></span>
+                    </th>
+                    <th>
+                      <span ng-click="activateSortCol('nombre_cientifico')">
+                        Descripción
+                      </span>
+                      <span ng-show="sortType == 'nombre_cientifico' && !sortReverse" class="dropdown"><span class="caret"></span></span>
+                      <span ng-show="sortType == 'nombre_cientifico' && sortReverse" class="dropup"><span class="caret"></span></span>
+                    </th>
+                </tr>
+                <tr class="filters">
+                    <th><input type="text" ng-model="search.nombre" class="form-control" placeholder="Nombre"></th>
+                    <th><input type="text" ng-model="search.descripcion" class="form-control" placeholder="Descripción"></th>
+                    <th><input type="text" ng-model="search.nombre_cientifico" class="form-control" placeholder="Nombre Científico"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr dir-paginate="item in animales | filter: search | orderBy: sortType: sortReverse | itemsPerPage: pagesize">
+                    <td>{{ item.nombre }}</td>
+                    <td>{{ item.descripcion }}</td>
+                    <td>{{ item.nombre_cientifico }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <dir-pagination-controls class="pull-right" style=""></dir-pagination-controls>
+</div> <!-- end row -->
+</div> <!-- end container -->

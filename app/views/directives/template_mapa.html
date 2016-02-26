@@ -1,0 +1,17 @@
+<div id="descripcion-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                <h4 class="modal-title">{{ modal.nombre }}</h4>
+            </div>
+            <div class="modal-body">
+                <p ng-if="modal.imagen"><img class="img-responsive img-rounded img-centered"
+                                             ng-src="images/animales/{{ modal.imagen }}"></p>
+                <p style="margin-top: 30px">{{ modal.descripcion }}</p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="map"></div>
